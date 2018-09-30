@@ -1,3 +1,5 @@
+# ShantenNumberCalculator
+
 ## 使用方法
 1. calsht.hppをインクルードする.
 2. Calshtクラスをインスタンス化する.
