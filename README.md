@@ -22,6 +22,19 @@ This progaram generates hands at random and calculate the expected value of shan
 ~~~shell{
 $ make sample.out
 $ ./sample.out [number of tiles (ex. 13)] [number of trails (ex. 100000000)]
+=========================RESULT=========================
+-1  0           0
+0   8150        0.00815
+1   622033      0.622033
+2   9354929     9.35493
+3   36203040    36.203
+4   39873533    39.8735
+5   13101192    13.1012
+6   837123      0.837123
+Number of Tiles         13
+Total                   100000000
+Time (msec.)            82466
+Expected Value          3.57964
 ~~~
 ## Notes
 - You need a compiler that supports C++11.
