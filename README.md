@@ -24,5 +24,5 @@ $ make sample.out
 $ ./sample.out [number of tiles (ex. 13)] [number of trails (ex. 100000000)]
 ~~~
 ## Notes
-- C++11以上に対応したコンパイラが必要.
-- index_h.txtとindex_s.txtは実行ファイルと同じディレクトリに置く.
+- You need a compiler that supports C++11 or later.
+- Put index_h.txt and index_s.txt in the same directory as the executable file.
