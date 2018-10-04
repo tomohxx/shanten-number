@@ -1,6 +1,6 @@
 # ShantenNumberCalculator
 
-## 使用方法
+## Usage
 1. calsht.hppをインクルードする.
 2. Calshtクラスをインスタンス化する.
 3. 手牌を表す長さ34のint型配列を用意する.<br>
@@ -17,13 +17,12 @@ n番目の要素がn番目の牌の枚数を格納する(n=0:1m, ..., n=8:9m, n=
   - 一般形のシャンテン数(上記のシャンテン数の最小値)を求めるには
     - int operator()(int* [手牌を表配列], int [手牌の枚数]])
 
-## サンプルプログラム
-手牌をランダムに生成し, シャンテン数ごとの出現率とシャンテン数の期待値を計算する. 以下のコマンドを実行する.
-
-1. $ make sample.out
-2. $ ./sample.out [手牌の枚数] [何通りの手牌を生成するか]<br>
-(例)$ ./sample.out 13 100000000
-
-## 注意事項
+## How to run a sample program
+This progaram generates hands at random and calculate the expected value of shanten numbers.
+~~~shell{
+$ make sample.out
+$ ./sample.out [number of tiles (ex. 13)] [number of trails (ex. 100000000)]
+~~~
+## Notes
 - C++11以上に対応したコンパイラが必要.
 - index_h.txtとindex_s.txtは実行ファイルと同じディレクトリに置く.
