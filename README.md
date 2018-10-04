@@ -8,9 +8,9 @@ The n'th element stores the number of the n'th tile (n=0:1m, ..., n=8:9m, n=9:1p
 3. Call the method of "Calsht" class and calculate the shanten number. Note that each method returns a value of shanten number + 1.
 
 ## Class methods
-- Calculate shanten number of a legal hand.
+- Calculate shanten number of legal hand.
   - int calc_lh(int* [an array representing the hand], int [number of tiles])
-- Calculate shanten number of a seven pairs.
+- Calculate shanten number of seven pairs.
   - int calc_sp(int* [an array representing the hand])
 - Calculate shanten number of thirteen orphans.
   - int calc_to(int* [an array representing the hand])
