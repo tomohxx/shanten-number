@@ -61,8 +61,8 @@ int Calsht::calc_lh(const int* t, const int m) const
 
   add(ret, mp1[std::accumulate(t+10, t+18, t[9], [](int x, int y){return 5*x+y;})]);
   add(ret, mp1[std::accumulate(t+19, t+27, t[18], [](int x, int y){return 5*x+y;})]);
-  add(ret, mp2[std::accumulate(t+28, t+34, t[27], [](int x, int y){return 5*x+y;})], 5+m/3);
-  return (ret[5+m/3]+m/3*3+2-m)/2;
+  add(ret, mp2[std::accumulate(t+28, t+34, t[27], [](int x, int y){return 5*x+y;})], 5+m);
+  return ret[5+m];
 }
   
 int Calsht::calc_sp(const int* t) const
@@ -93,5 +93,5 @@ int Calsht::calc_to(const int* t) const
 
 int Calsht::operator()(const int* t, const int m) const
 {
-  return m>12 ? std::min({calc_lh(t,m),calc_sp(t),calc_to(t)}) : calc_lh(t,m);
+  return m==4 ? std::min({calc_lh(t,m),calc_sp(t),calc_to(t)}) : calc_lh(t,m);
 }

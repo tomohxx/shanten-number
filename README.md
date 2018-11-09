@@ -1,41 +1,47 @@
 # ShantenNumberCalculator
+麻雀においてシャンテン数を計算する
 
-## Usage
-1. Include the header file "calsht.hpp".
-2. Instantiate the class "Calsht".
-3. Prepare an int type array of length 34 representing a hand.<br>
-The n'th element stores the number of the n'th tile (n=0:1m, ..., n=8:9m, n=9:1p, ..., n=17:9p, n=18:1s, .. , n=26:9s, n=27:east, ...,n=30:north, n=31:white, n=32:green, n=33:red).
-3. Call the method of "Calsht" class and calculate the shanten number. Note that each method returns a value of shanten number + 1.
+## 使用方法
+1. ヘッダファイル"calsht.hpp"をインクルードする。
+2. クラス"Calsht"をインスタンス化する。
+3. 手牌を表す長さ34のint型配列を用意する。
 
-## Class methods
-- Calculate shanten number of legal hand.
-  - int calc_lh(int* [an array representing the hand], int [number of tiles])
-- Calculate shanten number of seven pairs.
-  - int calc_sp(int* [an array representing the hand])
-- Calculate shanten number of thirteen orphans.
-  - int calc_to(int* [an array representing the hand])
-- Calculate shanten number of general hand (the minimum value of the above-mentioned shanten number).
-  - int operator()(int* [an array representing the hand], int [number of tiles]])
+    n番目の要素がn番目の牌の枚数を格納する。(n=0:1m, ..., n=8:9m, n=9:1p, ..., n=17:9p, n=18:1s, .. , n=26:9s, n=27:東, ...,n=30:北, n=31:白, n=32:発, n=33:中)
 
-## How to run a sample program
-This progaram generates hands at random and calculate the expected value of shanten numbers.
+4. Calshtクラスのメソッドを呼び, シャンテン数を計算する。
+
+    各メソッドはシャンテン数+1の値を返すことに注意する。
+
+## メソッド一覧
+- (面前部分が)n面子一雀頭形のシャンテン数を求める。
+  - int calc_lh(int* [手牌を表す配列], int n)
+- 七対子のシャンテン数を求める。
+  - int calc_sp(int* [手牌を表す配列])
+- 国士無双のシャンテン数を求める。
+  - int calc_to(int* [手牌を表す配列])
+- 一般形のシャンテン数(上記のシャンテン数の最小値)を求める。
+  - int operator()(int* [手牌を表す配列], int n])
+
+## サンプルプログラム
+手牌をランダムに生成し、シャンテン数ごとの出現率とシャンテン数の期待値を計算する。以下のコマンドを実行する。
+
 ~~~shell{
 $ make sample.out
-$ ./sample.out [number of tiles (ex. 13)] [number of trails (ex. 100000000)]
+$ ./sample.out [手牌の枚数(例えば14)] [試行回数(例えば100000000)]
 =========================RESULT=========================
--1  0           0
-0   8150        0.00815
-1   622033      0.622033
-2   9354929     9.35493
-3   36203040    36.203
-4   39873533    39.8735
-5   13101192    13.1012
-6   837123      0.837123
-Number of Tiles         13
+-1  315         0.000315
+0   69900       0.0699
+1   2333875     2.33387
+2   19496567    19.4966
+3   43932086    43.9321
+4   28515676    28.5157
+5   5496180     5.49618
+6   155401      0.155401
+Number of Tiles         14
 Total                   100000000
-Time (msec.)            82466
-Expected Value          3.57964
+Time (msec.)            99710
+Expected Value          3.15599
 ~~~
-## Notes
-- You need a compiler that supports C++11.
-- Put "index_h.txt" and "index_s.txt" in the same directory as the executable file.
+
+## 注意事項
+- C++11以上に対応したコンパイラが必要です。

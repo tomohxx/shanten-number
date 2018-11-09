@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
       ++hd[wall[n]];
       std::swap(wall[n],wall[4*T-1-j]);
     }
-    num = calsht(hd.data(),M);
+    num = calsht(hd.data(),M/3);
     ++sht[num];
   }
 
