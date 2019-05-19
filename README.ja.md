@@ -35,11 +35,11 @@
         ~~~cpp
         int Calsht::calc_sp(int* hand)
         ~~~
-    - 国士無双のシャンテン数を求める。
+    - 国士無双のシャンテン数を計算する。
         ~~~cpp
         int Calsht::calc_to(int* hand)
         ~~~
-    - 一般形のシャンテン数(上記のシャンテン数の最小値)を求める。
+    - 一般形のシャンテン数(上記のシャンテン数の最小値)を計算する。
         ~~~cpp
         int Calsht::operator()(int* hand, int n)
         ~~~
