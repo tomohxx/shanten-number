@@ -1,7 +1,7 @@
 # ShantenNumberCalculator
 A tool for calculating Shanten number in Japanes mahjong
 
-[Read this in Japanes (日本語).](README.ja.md)
+[Read this in Japanese (日本語).](README.ja.md)
 
 ## Usage
 1. Prepare an int-type array of length 34 representing a hand.
