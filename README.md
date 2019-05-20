@@ -12,7 +12,7 @@ A tool for calculating Shanten number in Japanes mahjong
         |Manzu|0|1|2|3|4|5|6|7|8|
         |Pinzu|9|10|11|12|13|14|15|16|17|
         |Souzu|18|19|20|21|22|23|24|25|26|
-        |Jihai|27 (East)|28 (South)|29 (West)|30 (North)|31 (White)|32 (Green)|33 (Red)||||
+        |Jihai|27 (East)|28 (South)|29 (West)|30 (North)|31 (White)|32 (Green)|33 (Red)|||
 
     - For example, if you have Manzu tiles (1, 2, 3), Pinzu tiles (2, 4, 5, 7, 7, 9), and Jihai tiles (East, West, White, White, White), define the following array.
 
