@@ -91,7 +91,32 @@ int Calsht::calc_to(const int* t) const
   return 14-kind-(pair>0 ? 1:0);
 }
 
-int Calsht::operator()(const int* t, const int m) const
+int Calsht::operator()(const int* t, const int m, int& mode) const
 {
-  return m==4 ? std::min({calc_lh(t,m),calc_sp(t),calc_to(t)}) : calc_lh(t,m);
+  if(m==4){
+    int sht = calc_lh(t,m);
+    int sht_ = calc_sp(t);
+    mode = 1;
+
+    if(sht>sht_){
+      sht = sht_; mode = 2;
+    }
+    else if(sht==sht_){
+      mode |= 2;
+    }
+
+    sht_ = calc_to(t);
+
+    if(sht>sht_){
+      sht = sht_; mode = 4;
+    }
+    else if(sht==sht_){
+      mode |= 4;
+    }
+    return sht;
+  }
+  else{
+    mode = 1;
+    return calc_lh(t,m);
+  }
 }

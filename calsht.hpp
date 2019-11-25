@@ -26,7 +26,7 @@ public:
   int calc_lh(const int* t, int m) const;
   int calc_sp(const int* t) const;
   int calc_to(const int* t) const;
-  int operator()(const int* t, int m) const;
+  int operator()(const int* t, int m, int& mode) const;
   bool operator!() const;
 };
 

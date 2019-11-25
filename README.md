@@ -47,8 +47,10 @@ int Calsht::calc_to(int* hand)
 ```
 - (d) For winning hands of which the shanten number is minimum in above hands:
 ```cpp
-int Calsht::operator()(int* hand, int n)
+int Calsht::operator()(int* hand, int n, int& mode)
 ```
+> **NOTE:** The argument *mode* above represents which winning pattern of the hand gives the minimum shanten number. When the pattern is (a), *mode* is 1, when (b): 2, (c):4. If there are multiple patters, *mode* is bitwise OR of them. Therefore, *mode* is one of the values 1 to 7.
+
 > **Note:** Each method returns a value of Shanten number + 1.
 
 For example, calculate the shanten number of the hand defined above. The source code is as follows:
@@ -63,6 +65,7 @@ int main()
   constexpr int K = 34;
 
   Calsht calsht;
+  int mode;
   int hand[K] = {
       1,1,1,0,0,0,0,0,0,// manzu
       0,1,0,1,1,0,2,0,1,// pinzu
@@ -70,7 +73,7 @@ int main()
       1,0,1,0,3,0,0// jihai
   };
 
-  int sht = calsht(hd, 4);
+  int sht = calsht(hd, 4, mode);
 
   std::cout << sht << std::endl;
 
@@ -102,4 +105,12 @@ Number of Tiles         14
 Total                   100000000
 Time (msec.)            99710
 Expected Value          3.15599
+```
+
+## Building tables (Unneeded)
+- Build tables of parameters required for calculating Shanten number. Make "index_h.txt" and "index_s.txt". 
+
+```
+$ make mkind1.out
+$ ./mkind1.out
 ```

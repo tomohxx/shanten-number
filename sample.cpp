@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
   std::array<int,8> sht = {0};
   std::mt19937 rand(std::random_device{}());
   Calsht calsht;
+  int mode;
     
   if(!calsht) return 1;
     
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
       ++hd[wall[n]];
       std::swap(wall[n],wall[4*T-1-j]);
     }
-    num = calsht(hd.data(),M/3);
+    num = calsht(hd.data(),M/3,mode);
     ++sht[num];
   }
 

@@ -46,8 +46,10 @@ int Calsht::calc_to(int* hand)
 ```
 - (d) 一般形:
 ```cpp
-int Calsht::operator()(int* hand, int n)
+int Calsht::operator()(int* hand, int n, int& mode)
 ```
+> **NOTE:** *mode*はどのあがりパターンがシャンテン数の最小値を与えるかを表します。n面子一雀頭形の場合は1, 七対子の場合は2, 国士無双の場合は4です。複数のあがりパターンでシャンテン数が最小となる場合は, それらのビット論理和が*mode*となります。よって*mode*は1から7までの値をとりえます。
+
 > **NOTE:** 各メソッドはシャンテン数+1の値を返します。
 
 例として, 先に定義した手牌のシャンテン数を計算します。
@@ -62,6 +64,7 @@ int main()
   constexpr int K = 34;
 
   Calsht calsht;
+  int mode;
   int hand[K] = {
       1,1,1,0,0,0,0,0,0,// manzu
       0,1,0,1,1,0,2,0,1,// pinzu
@@ -69,9 +72,10 @@ int main()
       1,0,1,0,3,0,0// jihai
   };
 
-  int sht = calsht(hd, 4);
+  int sht = calsht(hd, 4, mode);
 
   std::cout << sht << std::endl;
+  std::cout << mode << std::endl;
 
   return 0;
 }
@@ -79,6 +83,7 @@ int main()
 出力:
 ```
 3
+1
 ```
 
 > **NOTE:** C++11以上に対応したコンパイラが必要です。
@@ -103,3 +108,12 @@ Total                   100000000
 Time (msec.)            99710
 Expected Value          3.15599
 ```
+
+## テーブルの構築 (不要)
+- シャンテン数計算に必要なパラメータテーブルを構築します。index_h.txt, index_s.txtを作成します。
+
+```
+$ make mkind1.out
+$ ./mkind1.out
+```
+
