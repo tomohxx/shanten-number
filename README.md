@@ -1,4 +1,4 @@
-# ShantenNumberCalculator
+# Shanten Number Calculator
 A tool for calculating Shanten number in Japanes mahjong.
 
 [Read this in Japanese (日本語).](README.ja.md)
