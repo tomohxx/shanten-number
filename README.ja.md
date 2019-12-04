@@ -1,4 +1,4 @@
-# ShantenNumberCalculator
+# Shanten Number Calculator
 麻雀におけるシャンテン数を計算する。
 
 [Read this in English.](README.md)
