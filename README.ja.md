@@ -1,5 +1,5 @@
 # Shanten Number Calculator
-麻雀におけるシャンテン数を計算する。
+このプログラムに使用しているアルゴリズムはシャンテン数を正確に計算できることが証明されています。
 
 [Read this in English.](README.md)
 
