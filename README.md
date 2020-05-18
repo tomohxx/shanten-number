@@ -1,5 +1,5 @@
 # Shanten Number Calculator
-A tool for calculating Shanten number in Japanes mahjong.
+The algorithm used in this program has been proven to be able to calculate numbers accurately.
 
 [Read this in Japanese (日本語).](README.ja.md)
 
