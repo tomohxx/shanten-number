@@ -25,17 +25,17 @@ int main(int argc, char* argv[])
   std::mt19937 rand(std::random_device{}());
   Calsht calsht;
   int mode;
-    
+
   if(!calsht) return 1;
-    
+
   for(int i=0; i<4; ++i){
     for(int j=0; j<T; ++j){
       wall[T*i+j] = j;
     }
   }
-  
+
   auto start = std::chrono::system_clock::now();
-  
+
   for(int i=0; i<N; ++i){
     hd.fill(0);
 
@@ -64,6 +64,6 @@ int main(int argc, char* argv[])
   std::cout << std::setw(24) << "Total" << std::setw(16) << N << '\n';
   std::cout << std::setw(24) << "Time (msec.)" << std::setw(16) << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count() << '\n';
   std::cout << std::setw(24) << "Expected Value" << std::setw(24) << ev << '\n';
-  
+
   return 0;
 }

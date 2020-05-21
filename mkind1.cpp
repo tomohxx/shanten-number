@@ -28,7 +28,7 @@ int main()
   std::function<bool(int*)> func0 = iswh0;
   std::function<bool(int*)> func2 = iswh2;
   std::function<bool(int*)> funcs = iswhs;
-  
+
   for(int i=0; i<=4; i++){
     dealtile<9>(0,3*i,4*8,kind[i],vec,func0);
   }
@@ -36,7 +36,7 @@ int main()
     dealtile<9>(0,3*i+2,4*8,kind[5+i],vec,func2);
   }
   deal<9>(0,kind,vec,fout);
-  
+
   for(int i=0; i<=4; i++){
     dealtile<7>(0,3*i,4*6,kind_h[i],vec7,funcs);
   }
@@ -51,7 +51,7 @@ template <int N, class Func>
 void dealtile(int n, int m, int l, int& cnt, std::vector<array<N> >& vec, Func func)
 {
   static array<N> hd;
-  
+
   if(n>=N){
     if(func(hd.data())){
       cnt++;
@@ -70,7 +70,7 @@ void deal(int n, array<10>& kind, std::vector<array<N> >& vec, std::ofstream& fo
 {
   static array<N> hd;
   static array<10> sht;
-  
+
   if(n>=N){
     calc<N>(hd,sht,kind,vec.begin());
     for(int i=0; i<10; i++) fout << sht[i] << ' ';
@@ -90,8 +90,8 @@ void calc(array<N>& t, array<10>& ret, array<10>& kind, Iter itr)
   int tmp = 0;
 
   for(int i=0; i<10; i++){
-    sht = 100;    
-    for(int j=0; j<kind[i]; j++){      
+    sht = 100;
+    for(int j=0; j<kind[i]; j++){
       tmp = std::inner_product(itr->begin(), itr->end(), t.begin(), 0, std::plus<int>(), [](int x, int y){return abs(x-y)+x-y;})/2;
       sht = std::min(tmp, sht);
       ++itr;

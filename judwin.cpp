@@ -30,7 +30,7 @@ bool iswh2(int* t)
 bool iswhs(const int* t)
 {
   int head = -1;
-  
+
   for(int i=0; i<7; i++){
     switch(t[i]%3){
     case 1: return false;
