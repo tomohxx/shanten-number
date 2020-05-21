@@ -1,29 +1,30 @@
 #include "calsht.hpp"
 
-void Calsht::add(Vec& lhs, const Vec& rhs) const
+void Calsht::add1(Vec& lhs, const Vec& rhs, const int m) const
 {
-  for(int j=9; j>=5; --j){
+  for(int j=m+5; j>=5; --j){
     int sht = std::min(lhs[j]+rhs[0], lhs[0]+rhs[j]);
-    
+
     for(int k=5; k<j; ++k){
       sht = std::min({sht, lhs[k]+rhs[j-k], lhs[j-k]+rhs[k]});
     }
     lhs[j] = sht;
   }
-  for(int j=4; j>=0; --j){
+  for(int j=m; j>=0; --j){
     int sht = lhs[j]+rhs[0];
-    
+
     for(int k=0; k<j; ++k){
       sht = std::min(sht, lhs[k]+rhs[j-k]);
     }
     lhs[j] = sht;
   }
 }
-  
-void Calsht::add(Vec& lhs, const Vec& rhs, const int j) const
+
+void Calsht::add2(Vec& lhs, const Vec& rhs, const int m) const
 {
+  int j = m+5;
   int sht = std::min(lhs[j]+rhs[0], lhs[0]+rhs[j]);
-  
+
   for(int k=5; k<j; ++k){
     sht = std::min({sht, lhs[k]+rhs[j-k], lhs[j-k]+rhs[k]});
   }
@@ -34,7 +35,7 @@ Calsht::Iter Calsht::read_file(Iter first, Iter last, const char* filename) cons
 {
   std::ifstream fin(filename);
   Vec vec(10);
-  
+
   if(fin.is_open()){
     while(first != last){
       for(int j=0; j<10; ++j) fin >> vec[j];
@@ -59,12 +60,12 @@ int Calsht::calc_lh(const int* t, const int m) const
 {
   Vec ret = mp1[std::accumulate(t+1, t+9, t[0], [](int x, int y){return 5*x+y;})];
 
-  add(ret, mp1[std::accumulate(t+10, t+18, t[9], [](int x, int y){return 5*x+y;})]);
-  add(ret, mp1[std::accumulate(t+19, t+27, t[18], [](int x, int y){return 5*x+y;})]);
-  add(ret, mp2[std::accumulate(t+28, t+34, t[27], [](int x, int y){return 5*x+y;})], 5+m);
+  add1(ret, mp1[std::accumulate(t+10, t+18, t[9], [](int x, int y){return 5*x+y;})], m);
+  add1(ret, mp1[std::accumulate(t+19, t+27, t[18], [](int x, int y){return 5*x+y;})], m);
+  add2(ret, mp2[std::accumulate(t+28, t+34, t[27], [](int x, int y){return 5*x+y;})], m);
   return ret[5+m];
 }
-  
+
 int Calsht::calc_sp(const int* t) const
 {
   int pair = 0, kind = 0;
@@ -77,7 +78,7 @@ int Calsht::calc_sp(const int* t) const
   }
   return 7-pair+(kind<7 ? 7-kind:0);
 }
-  
+
 int Calsht::calc_to(const int* t) const
 {
   int pair = 0, kind = 0;
