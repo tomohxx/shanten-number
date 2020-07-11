@@ -127,7 +127,7 @@ $ cmake . -DCMAKE_BUILD_TYPE=Release -DTHREE_PLAYER=on
 $ make
 ```
 
-## テーブルの構築 (不要)
+## テーブルの構築(不要)
 - シャンテン数計算に必要なパラメータテーブルを構築します.index_h.txt, index_s.txtを作成します.
 
 ```
