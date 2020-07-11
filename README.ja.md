@@ -29,7 +29,7 @@ std::vector<int> hand = {
 ```
 
 2. シャンテン数を計算します. 各メソッドはシャンテン数+1の値を返します.
-- 一般形 (`n`面子一雀頭):
+- 一般形(`n`面子一雀頭):
 ```cpp
 int Calsht::calc_lh(int* hand, int n)
 ```
