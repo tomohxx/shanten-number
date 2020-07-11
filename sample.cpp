@@ -13,38 +13,43 @@ int main(int argc, char* argv[])
     return 1;
   }
 
+#ifdef THREE_PLAYER
+  const int T = 27;
+#else
   const int T = 34;
+#endif
   const int M = std::atoi(argv[1]);
   const int N = std::atoi(argv[2]);
-  int num = 0;
   int n = 0;
   double ev = 0;
-  std::array<int,T> hd = {0};
+  std::vector<int> hd(K, 0);
   std::array<int,4*T> wall = {0};
   std::array<int,8> sht = {0};
   std::mt19937 rand(std::random_device{}());
   Calsht calsht;
-  int mode;
 
-  if(!calsht) return 1;
+  auto itr = wall.begin();
 
-  for(int i=0; i<4; ++i){
-    for(int j=0; j<T; ++j){
-      wall[T*i+j] = j;
+  for(int i=0; i<K; ++i){
+#ifdef THREE_PLAYER
+    if(i>0 && i<8) continue;
+#endif
+    for(int j=0; j<4; ++j){
+      *itr++ = i;
     }
   }
 
   auto start = std::chrono::system_clock::now();
 
   for(int i=0; i<N; ++i){
-    hd.fill(0);
+    std::fill(hd.begin(), hd.end(), 0);
 
     for(int j=0; j<M; ++j){
       n = rand()%(4*T-j);
       ++hd[wall[n]];
       std::swap(wall[n],wall[4*T-1-j]);
     }
-    num = calsht(hd.data(),M/3,mode);
+    auto [num, mode] = calsht(hd,M/3,7);
     ++sht[num];
   }
 

@@ -1,4 +1,24 @@
+#include <algorithm>
+#include <fstream>
+#include <numeric>
+#ifdef CHECK_HAND
+#include <sstream>
+#include <stdexcept>
+#endif
 #include "calsht.hpp"
+
+#ifdef THREE_PLAYER
+Calsht::Vec Calsht::index1(const int n) const
+{
+  Vec ret(10);
+
+  for(int i=0; i<5; ++i){
+    ret[i] = (abs(3*i-n)+3*i-n)/2;
+    ret[5+i] = (abs(3*i+2-n)+3*i+2-n)/2;
+  }
+  return ret;
+}
+#endif
 
 void Calsht::add1(Vec& lhs, const Vec& rhs, const int m) const
 {
@@ -31,16 +51,18 @@ void Calsht::add2(Vec& lhs, const Vec& rhs, const int m) const
   lhs[j] = sht;
 }
 
-Calsht::Iter Calsht::read_file(Iter first, Iter last, const char* filename) const
+Calsht::Iter Calsht::read_file(Iter first, Iter last, const char* file_name) const
 {
-  std::ifstream fin(filename);
+  std::ifstream fin(file_name);
   Vec vec(10);
 
-  if(fin.is_open()){
-    while(first != last){
-      for(int j=0; j<10; ++j) fin >> vec[j];
-      *first++ = vec;
-    }
+  if(!fin){
+    throw std::runtime_error("Reading file does not exists");
+  }
+
+  while(first != last){
+    for(int j=0; j<10; ++j) fin >> vec[j];
+    *first++ = vec;
   }
   return first;
 }
@@ -51,14 +73,15 @@ Calsht::Calsht() : mp1(std::vector<Vec>(1953125,Vec(10))), mp2(std::vector<Vec>(
   itr2 = read_file(mp2.begin(),mp2.end(),"index_h.txt");
 }
 
-bool Calsht::operator!() const
-{
-  return mp1.empty() || mp2.empty() || itr1==mp1.begin() || itr2==mp2.begin();
-}
-
 int Calsht::calc_lh(const int* t, const int m) const
 {
+#ifdef THREE_PLAYER
+  Vec ret = index1(t[0]);
+
+  add1(ret, index1(t[8]), m);
+#else
   Vec ret = mp1[std::accumulate(t+1, t+9, t[0], [](int x, int y){return 5*x+y;})];
+#endif
 
   add1(ret, mp1[std::accumulate(t+10, t+18, t[9], [](int x, int y){return 5*x+y;})], m);
   add1(ret, mp1[std::accumulate(t+19, t+27, t[18], [](int x, int y){return 5*x+y;})], m);
@@ -68,9 +91,13 @@ int Calsht::calc_lh(const int* t, const int m) const
 
 int Calsht::calc_sp(const int* t) const
 {
-  int pair = 0, kind = 0;
+  int pair = 0;
+  int kind = 0;
 
-  for(int i=0; i<34; ++i){
+  for(int i=0; i<K; ++i){
+#ifdef THREE_PLAYER
+    if(i>0 && i<8) continue;
+#endif
     if(t[i]>0){
       ++kind;
       if(t[i]>=2) ++pair;
@@ -81,7 +108,8 @@ int Calsht::calc_sp(const int* t) const
 
 int Calsht::calc_to(const int* t) const
 {
-  int pair = 0, kind = 0;
+  int pair = 0;
+  int kind = 0;
 
   for(int i : {0,8,9,17,18,26,27,28,29,30,31,32,33}){
     if(t[i]>0){
@@ -92,32 +120,49 @@ int Calsht::calc_to(const int* t) const
   return 14-kind-(pair>0 ? 1:0);
 }
 
-int Calsht::operator()(const int* t, const int m, int& mode) const
+std::tuple<int,int> Calsht::operator()(const std::vector<int>& t, const int m, const int mode) const
 {
-  if(m==4){
-    int sht = calc_lh(t,m);
-    int sht_ = calc_sp(t);
-    mode = 1;
-
-    if(sht>sht_){
-      sht = sht_; mode = 2;
-    }
-    else if(sht==sht_){
-      mode |= 2;
-    }
-
-    sht_ = calc_to(t);
-
-    if(sht>sht_){
-      sht = sht_; mode = 4;
-    }
-    else if(sht==sht_){
-      mode |= 4;
-    }
-    return sht;
+#ifdef CHECK_HAND
+  if(m<0 || m>4){
+    throw std::runtime_error("Abnormal sum of hands's melds");
   }
-  else{
-    mode = 1;
-    return calc_lh(t,m);
+  for(int i=0; i<K; ++i){
+    if(t[i]<0 || t[i]>4){
+      std::stringstream ss;
+      ss << "Abnormal number of hand's tiles at " << i << ": " << t[i];
+      throw std::runtime_error(ss.str());
+    }
   }
+#endif
+
+  std::tuple<int,int> ret{1024, 0};
+
+  if(mode & 1){
+    if(int sht=calc_lh(t.data(),m); sht < std::get<0>(ret)){
+      ret = {sht, 1};
+    }
+    else if(sht == std::get<0>(ret)){
+      std::get<1>(ret) |= 1;
+    }
+  }
+
+  if((mode&2) && m==4){
+    if(int sht=calc_sp(t.data()); sht < std::get<0>(ret)){
+      ret = {sht, 2};
+    }
+    else if(sht == std::get<0>(ret)){
+      std::get<1>(ret) |= 2;
+    }
+  }
+
+  if((mode&4) && m==4){
+    if(int sht=calc_to(t.data()); sht < std::get<0>(ret)){
+      ret = {sht, 4};
+    }
+    else if(sht == std::get<0>(ret)){
+      std::get<1>(ret) |= 4;
+    }
+  }
+
+  return ret;
 }
