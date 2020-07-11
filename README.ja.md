@@ -29,12 +29,12 @@ std::vector<int> hand = {
 ```
 
 2. シャンテン数を計算します. 各メソッドはシャンテン数+1の値を返します.
-- 一般形(`n`面子一雀頭):
+- 一般形(`m`面子一雀頭):
 ```cpp
-int Calsht::calc_lh(int* hand, int n)
+int Calsht::calc_lh(int* hand, int m)
 ```
 
-> **NOTE:** 通常, `n`には手牌の枚数を3で割った値を代入します.
+> **NOTE:** 通常, `m`には手牌の枚数を3で割った値を代入します.
 
 - 七対子:
 ```cpp
@@ -46,7 +46,7 @@ int Calsht::calc_to(int* hand)
 ```
 - 標準形:
 ```cpp
-std::tuple<int,int> Calsht::operator()(int* hand, int n, int mode)
+std::tuple<int,int> Calsht::operator()(const std::vector<int>& hand, int m, int mode)
 ```
 > **NOTE:** `mode`にはどのあがりパターンに対してシャンテン数を計算するかを指定します. 一般形の場合は1, 七対子の場合は2, 国士無双の場合は4です. 複数のあがりパターンに対してシャンテン数を計算する場合はそれらの論理和を指定します.
 
@@ -69,7 +69,7 @@ int main()
     1,0,1,0,3,0,0// jihai
   };
 
-  auto [sht, mode] = calsht(hd, 4, 7);
+  auto [sht, mode] = calsht(hand, 4, 7);
 
   std::cout << sht << std::endl;
   std::cout << mode << std::endl;
@@ -119,7 +119,7 @@ Expected Value          3.15599
 ```
 
 ## 三人麻雀モード
-`THREE_PLAYER`を有効にする.
+`THREE_PLAYER`を有効にします.
 
 例:
 ```

@@ -29,12 +29,12 @@ std::vector<int> hand = {
 ```
 
 2. Calculate the Shanten number. Each method returns a value of Shanten number + 1.
-- General Form (`n` tile groups and a pair):
+- General Form (`m` tile groups and a pair):
 ```cpp
-int Calsht::calc_lh(int* hand, int n)
+int Calsht::calc_lh(int* hand, int m)
 ```
 
-> **NOTE:** Normally, substitute the value obtained by dividing the number of tiles by 3 into `n`.
+> **NOTE:** Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
 
 - Seven Pairs:
 ```cpp
@@ -46,7 +46,7 @@ int Calsht::calc_to(int* hand)
 ```
 - Normal Form:
 ```cpp
-std::tuple<int,int> Calsht::operator()(int* hand, int n, int mode)
+std::tuple<int,int> Calsht::operator()(const std::vector<int>& hand, int m, int mode)
 ```
 > **NOTE:** `mode` specifies for which winning pattern calculate shanten number. When the pattern is "General Form", `mode` is 1, when "Seven Pairs": 2, "Thirteen Orphans": 4. When calculating the Shanten number for multiple winning patterns, specify the logical sum of them.
 
@@ -69,7 +69,7 @@ int main()
     1,0,1,0,3,0,0// jihai
   };
 
-  int [sht, mode] = calsht(hd, 4, 7);
+  auto [sht, mode] = calsht(hand, 4, 7);
 
   std::cout << sht << std::endl;
   std::cout << mode << std::endl;
