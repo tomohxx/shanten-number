@@ -89,13 +89,17 @@ int main()
 ### ビルド
 - デバッグモード
 ```
-$ cmake . -DCMAKE_BUILD_TYPE=Debug
+$ mkdir build
+$ cd build
+$ cmake .. -DCMAKE_BUILD_TYPE=Debug
 $ make
 ```
 
 - リリースモード
 ```
-$ cmake . -DCMAKE_BUILD_TYPE=Release
+$ mkdir build
+$ cd build
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
 > **NOTE:** C++17以上に対応したコンパイラが必要です.
@@ -123,8 +127,7 @@ Expected Value          3.15599
 
 例:
 ```
-$ cmake . -DCMAKE_BUILD_TYPE=Release -DTHREE_PLAYER=on
-$ make
+$ cmake .. -DCMAKE_BUILD_TYPE=Release -DTHREE_PLAYER=on
 ```
 
 ## テーブルの構築(不要)
