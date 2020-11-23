@@ -10,6 +10,8 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E tar zxvf ${PROJECT_SOURCE_DIR}/index
 
 option(THREE_PLAYER "Three player mode" off)
 
+add_definitions(-DINDEX_FILE_PATH="${PROJECT_BINARY_DIR}")
+
 if(THREE_PLAYER)
   add_definitions(-DTHREE_PLAYER)
 endif()

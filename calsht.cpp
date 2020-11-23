@@ -51,13 +51,13 @@ void Calsht::add2(Vec& lhs, const Vec& rhs, const int m) const
   lhs[j] = sht;
 }
 
-Calsht::Iter Calsht::read_file(Iter first, Iter last, const char* file_name) const
+Calsht::Iter Calsht::read_file(Iter first, Iter last, std::filesystem::path file) const
 {
-  std::ifstream fin(file_name);
+  std::ifstream fin(file);
   Vec vec(10);
 
   if(!fin){
-    throw std::runtime_error("Reading file does not exists");
+    throw std::runtime_error("Reading file does not exist: " + file.string());
   }
 
   while(first != last){
@@ -67,10 +67,10 @@ Calsht::Iter Calsht::read_file(Iter first, Iter last, const char* file_name) con
   return first;
 }
 
-Calsht::Calsht() : mp1(std::vector<Vec>(1953125,Vec(10))), mp2(std::vector<Vec>(78125,Vec(10))), itr1(mp1.begin()), itr2(mp2.begin())
+void Calsht::initialize(std::filesystem::path dir)
 {
-  itr1 = read_file(mp1.begin(),mp1.end(),"index_s.txt");
-  itr2 = read_file(mp2.begin(),mp2.end(),"index_h.txt");
+  read_file(mp1.begin(),mp1.end(),dir/"index_s.txt");
+  read_file(mp2.begin(),mp2.end(),dir/"index_h.txt");
 }
 
 int Calsht::calc_lh(const int* t, const int m) const

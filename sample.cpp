@@ -28,6 +28,8 @@ int main(int argc, char* argv[])
   std::mt19937 rand(std::random_device{}());
   Calsht calsht;
 
+  calsht.initialize(INDEX_FILE_PATH);
+
   auto itr = wall.begin();
 
   for(int i=0; i<K; ++i){
