@@ -62,6 +62,10 @@ std::tuple<int,int> Calsht::operator()(const std::vector<int>& hand, int m, int 
 int main()
 {
   Calsht calsht;
+
+  // Set the location of shanten tables
+  calsht.initialize(".");
+
   std::vector<int> hand = {
     1,1,1,0,0,0,0,0,0,// manzu
     0,1,0,1,1,0,2,0,1,// pinzu
