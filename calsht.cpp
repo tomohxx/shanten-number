@@ -20,7 +20,7 @@ Calsht::Vec Calsht::index1(const int n) const
 }
 #endif
 
-void Calsht::add1(Vec& lhs, const Vec& rhs, const int m) const
+void Calsht::add1(LVec& lhs, const RVec& rhs, const int m) const
 {
   for(int j=m+5; j>=5; --j){
     int sht = std::min(lhs[j]+rhs[0], lhs[0]+rhs[j]);
@@ -40,7 +40,7 @@ void Calsht::add1(Vec& lhs, const Vec& rhs, const int m) const
   }
 }
 
-void Calsht::add2(Vec& lhs, const Vec& rhs, const int m) const
+void Calsht::add2(LVec& lhs, const RVec& rhs, const int m) const
 {
   int j = m+5;
   int sht = std::min(lhs[j]+rhs[0], lhs[0]+rhs[j]);
@@ -54,23 +54,26 @@ void Calsht::add2(Vec& lhs, const Vec& rhs, const int m) const
 Calsht::Iter Calsht::read_file(Iter first, Iter last, std::filesystem::path file) const
 {
   std::ifstream fin(file);
-  Vec vec(10);
 
   if(!fin){
     throw std::runtime_error("Reading file does not exist: " + file.string());
   }
 
-  while(first != last){
-    for(int j=0; j<10; ++j) fin >> vec[j];
-    *first++ = vec;
+  int tmp;
+
+  for(; first!=last; ++first){
+    for(int j=0; j<10; ++j){
+      fin >> tmp;
+      (*first)[j] = static_cast<int8_t>(tmp);
+    }
   }
   return first;
 }
 
-void Calsht::initialize(std::filesystem::path dir)
+void Calsht::initialize(const std::string& dir)
 {
-  read_file(mp1.begin(),mp1.end(),dir/"index_s.txt");
-  read_file(mp2.begin(),mp2.end(),dir/"index_h.txt");
+  read_file(mp1.begin(),mp1.end(),std::filesystem::path(dir)/"index_s.txt");
+  read_file(mp2.begin(),mp2.end(),std::filesystem::path(dir)/"index_h.txt");
 }
 
 int Calsht::calc_lh(const int* t, const int m) const
@@ -80,7 +83,9 @@ int Calsht::calc_lh(const int* t, const int m) const
 
   add1(ret, index1(t[8]), m);
 #else
-  Vec ret = mp1[std::accumulate(t+1, t+9, t[0], [](int x, int y){return 5*x+y;})];
+  LVec ret = [](const RVec& rhs){
+    return LVec(rhs.begin(), rhs.end());
+  }(mp1[std::accumulate(t+1, t+9, t[0], [](int x, int y){return 5*x+y;})]);
 #endif
 
   add1(ret, mp1[std::accumulate(t+10, t+18, t[9], [](int x, int y){return 5*x+y;})], m);

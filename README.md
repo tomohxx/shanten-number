@@ -135,8 +135,11 @@ $ cmake .. -DCMAKE_BUILD_TYPE=Release -DTHREE_PLAYER=on
 ```
 
 ## Building tables (Unneeded)
-- Build tables of parameters required for calculating Shanten number. Make "index_h.txt" and "index_s.txt".
+Build tables of parameters required for calculating Shanten number. Make "index_h.txt" and "index_s.txt".
 
 ```
 $ ./mkind1
 ```
+
+## License
+GNU General Public License v3.0.
