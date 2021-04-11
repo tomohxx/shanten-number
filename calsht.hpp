@@ -24,7 +24,7 @@ private:
   Iter read_file(Iter first, Iter last, std::filesystem::path file) const;
 
 public:
-  Calsht() : mp1(std::vector<RVec>(1953125,RVec(10))), mp2(std::vector<RVec>(78125,RVec(10))) {}
+  Calsht() : mp1(1953125, RVec(10)), mp2(78125, RVec(10)) {}
   void initialize(const std::string& dir);
   int calc_lh(const int* t, int m) const;
   int calc_sp(const int* t) const;
