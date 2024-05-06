@@ -1,20 +1,31 @@
 cmake_minimum_required(VERSION 3.1)
 
-project(shanten-number-calculator)
+project(shanten-number)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -g -DCHECK_HAND")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall")
-
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar zxvf ${PROJECT_SOURCE_DIR}/index.tar.gz)
+set(CMAKE_INSTALL_DATADIR share/data)
 
 option(THREE_PLAYER "Three player mode" off)
-
-add_definitions(-DINDEX_FILE_PATH="${PROJECT_BINARY_DIR}")
 
 if(THREE_PLAYER)
   add_definitions(-DTHREE_PLAYER)
 endif()
 
+add_library(calsht STATIC calsht.cpp)
+set_target_properties(calsht PROPERTIES PUBLIC_HEADER calsht.hpp)
+install(TARGETS calsht EXPORT Calsht)
+install(FILES
+  ${PROJECT_BINARY_DIR}/index_s.txt
+  ${PROJECT_BINARY_DIR}/index_h.txt
+TYPE DATA)
+install(EXPORT Calsht FILE CalshtConfig.cmake DESTINATION share/cmake)
+
 add_executable(mkind1 mkind1.cpp judwin.cpp)
-add_executable(sample sample.cpp calsht.cpp)
+add_executable(sample sample.cpp)
+target_compile_definitions(sample PUBLIC INDEX_FILE_PATH="${PROJECT_BINARY_DIR}")
+target_link_libraries(sample calsht)
+add_custom_target(extract ALL ${CMAKE_COMMAND} -E
+  tar zxvf ${PROJECT_SOURCE_DIR}/data.tar.gz
+  WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
