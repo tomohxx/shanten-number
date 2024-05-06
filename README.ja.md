@@ -1,4 +1,4 @@
-# Shanten Number Calculator
+# Shanten Number
 このプログラムに使用しているアルゴリズムはシャンテン数を正確に計算できることが証明されています.
 
 [Read this in English.](README.md)

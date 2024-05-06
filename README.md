@@ -1,4 +1,4 @@
-# Shanten Number Calculator
+# Shanten Number
 The algorithm used in this program has been proven to be able to calculate the shanten number accurately.
 
 [Read this in Japanese (日本語).](README.ja.md)
