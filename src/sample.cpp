@@ -6,6 +6,7 @@
 #include <chrono>
 #include <utility>
 #include "calsht.hpp"
+#include "constant.hpp"
 
 int main(int argc, char* argv[])
 {

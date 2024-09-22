@@ -6,6 +6,7 @@
 #include <stdexcept>
 #endif
 #include "calsht.hpp"
+#include "constant.hpp"
 
 #ifdef THREE_PLAYER
 Calsht::RVec Calsht::index1(const int n) const
