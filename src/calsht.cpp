@@ -8,14 +8,14 @@
 #include "calsht.hpp"
 
 #ifdef THREE_PLAYER
-Calsht::Vec Calsht::index1(const int n) const
+Calsht::RVec Calsht::index1(const int n) const
 {
-  Vec ret(10);
+  RVec ret(10, INT8_C(127));
 
-  for (int i = 0; i < 5; ++i) {
-    ret[i] = (abs(3 * i - n) + 3 * i - n) / 2;
-    ret[5 + i] = (abs(3 * i + 2 - n) + 3 * i + 2 - n) / 2;
-  }
+  ret[0] = INT8_C(0);
+  ret[1] = std::max(3 - n, INT8_C(0));
+  ret[5] = std::max(2 - n, INT8_C(0));
+
   return ret;
 }
 #endif
@@ -79,7 +79,9 @@ void Calsht::initialize(const std::string& dir)
 int Calsht::calc_lh(const int* t, const int m) const
 {
 #ifdef THREE_PLAYER
-  Vec ret = index1(t[0]);
+  LVec ret = [](const RVec& rhs) {
+    return LVec(rhs.begin(), rhs.end());
+  }(index1(t[0]));
 
   add1(ret, index1(t[8]), m);
 #else

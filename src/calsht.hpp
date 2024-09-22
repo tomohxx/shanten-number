@@ -17,7 +17,7 @@ private:
   std::vector<RVec> mp2;
 
 #ifdef THREE_PLAYER
-  Vec index1(int n) const;
+  RVec index1(int n) const;
 #endif
   void add1(LVec& lhs, const RVec& rhs, int m) const;
   void add2(LVec& lhs, const RVec& rhs, int m) const;
