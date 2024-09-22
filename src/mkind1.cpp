@@ -100,8 +100,7 @@ void calc(array<N>& t, array<10>& ret, array<10>& kind, Iter itr)
     sht = 100;
     for (int j = 0; j < kind[i]; ++j) {
       tmp = std::inner_product(itr->begin(), itr->end(), t.begin(), 0, std::plus<int>(),
-                               [](int x, int y) { return abs(x - y) + x - y; }) /
-            2;
+                               [](int x, int y) { return std::max(x - y, 0); });
       sht = std::min(tmp, sht);
       ++itr;
     }
