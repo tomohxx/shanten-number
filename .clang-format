@@ -1,0 +1,17 @@
+BasedOnStyle: LLVM
+UseTab: Never
+IndentWidth: 2
+TabWidth: 2
+BreakBeforeBraces: Stroustrup
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: true
+IndentCaseLabels: false
+ColumnLimit: 0
+AccessModifierOffset: -2
+NamespaceIndentation: All
+FixNamespaceComments: false
+PointerAlignment: Left
+ReferenceAlignment: Left
