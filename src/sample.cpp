@@ -1,77 +1,81 @@
-#include <iostream>
-#include <iomanip>
-#include <array>
-#include <random>
-#include <algorithm>
-#include <chrono>
-#include <utility>
 #include "calsht.hpp"
-#include "constant.hpp"
+#include <algorithm>
+#include <filesystem>
+#include <format>
+#include <iostream>
+#include <random>
+#include <type_traits>
+#include <utility>
+#ifndef INDEX_FILE_PATH
+#define INDEX_FILE_PATH std::filesystem::current_path()
+#endif
+#ifndef FIX_RANDOM_SEED
+#define FIX_RANDOM_SEED false
+#endif
 
 int main(int argc, char* argv[])
 {
-  if (argc != 3) {
+  if (argc != 4) {
+    std::cerr << std::format("Usage: {} [Number of tiles] "
+                             "[Number of hands] [Whether three player]\n",
+                             argv[0]);
     return 1;
   }
 
-#ifdef THREE_PLAYER
-  const int T = 27;
-#else
-  const int T = 34;
-#endif
-  const int M = std::atoi(argv[1]);
-  const int N = std::atoi(argv[2]);
-  int n = 0;
-  double ev = 0;
-  std::vector<int> hd(K, 0);
-  std::array<int, 4 * T> wall = {0};
-  std::array<int, 8> sht = {0};
-  std::mt19937 rand(std::random_device{}());
+  constexpr int NUM_TIDS = 34;
+  constexpr int MAX_SHT = 8;
+  constexpr int MODE = 7;
+  const int NUM_TILES = std::atoi(argv[1]);
+  const int NUM_HANDS = std::atoi(argv[2]);
+  const bool THREE_PLAYER = std::atoi(argv[3]);
+  std::vector<int> hand(NUM_TIDS, 0);
+  std::vector<int> wall;
+  std::vector<int> sht(MAX_SHT);
+  std::conditional<FIX_RANDOM_SEED,
+                   std::integral_constant<int, 0>,
+                   std::random_device>::type seed_gen;
+  std::mt19937_64 rand(seed_gen());
   Calsht calsht;
 
   calsht.initialize(INDEX_FILE_PATH);
+  wall.reserve(NUM_TIDS * 4);
 
-  auto itr = wall.begin();
+  for (int i = 0; i < NUM_TIDS; ++i) {
+    if (THREE_PLAYER && i > 0 && i < 8) continue;
 
-  for (int i = 0; i < K; ++i) {
-#ifdef THREE_PLAYER
-    if (i > 0 && i < 8) continue;
-#endif
     for (int j = 0; j < 4; ++j) {
-      *itr++ = i;
+      wall.push_back(i);
     }
   }
 
-  auto start = std::chrono::system_clock::now();
+  for (int i = 0; i < NUM_HANDS; ++i) {
+    std::fill(hand.begin(), hand.end(), 0);
 
-  for (int i = 0; i < N; ++i) {
-    std::fill(hd.begin(), hd.end(), 0);
+    for (int j = 0; j < NUM_TILES; ++j) {
+      const int n = rand() % (wall.size() - j);
 
-    for (int j = 0; j < M; ++j) {
-      n = rand() % (4 * T - j);
-      ++hd[wall[n]];
-      std::swap(wall[n], wall[4 * T - 1 - j]);
+      ++hand[wall[n]];
+      std::swap(wall[n], wall[wall.size() - j - 1]);
     }
-    auto [num, mode] = calsht(hd, M / 3, 7);
+
+    const auto [num, mode] = calsht(hand, NUM_TILES / 3, MODE, false, THREE_PLAYER);
+
     ++sht[num];
   }
 
-  auto end = std::chrono::system_clock::now();
+  double ev = 0.;
 
-  std::cout.setf(std::ios::left, std::ios::adjustfield);
-
-  std::cout << "=========================RESULT=========================\n";
-
-  for (int i = 0; i < 8; i++) {
-    std::cout << std::setw(4) << (i - 1) << std::setw(12) << sht[i] << std::setw(12) << 100.0 * sht[i] / N << '\n';
+  for (int i = 0; i < MAX_SHT; i++) {
     ev += (i - 1) * sht[i];
+    std::cout << std::format("{:4d}{:12d}{:12f}\n",
+                             i - 1,
+                             sht[i],
+                             sht[i] * 100. / NUM_HANDS);
   }
-  ev /= N;
 
-  std::cout << std::setw(24) << "Number of Tiles" << std::setw(16) << M << '\n';
-  std::cout << std::setw(24) << "Total" << std::setw(16) << N << '\n';
-  std::cout << std::setw(24) << "Time (msec.)" << std::setw(16) << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << '\n';
-  std::cout << std::setw(24) << "Expected Value" << std::setw(24) << ev << '\n';
+  std::cout << std::format("{:<24s}{:<16d}\n", "Number of Tiles", NUM_TILES);
+  std::cout << std::format("{:<24s}{:<16d}\n", "Number of Hands", NUM_HANDS);
+  std::cout << std::format("{:<24s}{:<24f}\n", "Expected Value", ev / NUM_HANDS);
 
   return 0;
 }
