@@ -164,4 +164,4 @@ Expected Value          3.155940
 
 ## License
 
-GNU General Public License v3.0.
+GNU Lesser General Public License v3.0.
