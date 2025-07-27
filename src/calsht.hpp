@@ -1,6 +1,7 @@
 #ifndef CALSHT_HPP
 #define CALSHT_HPP
 
+#include <array>
 #include <filesystem>
 #include <tuple>
 #include <vector>
@@ -27,10 +28,10 @@ public:
       : mp1(ENABLE_NYANTEN ? 405350 : 1953125, RVec(10)),
         mp2(ENABLE_NYANTEN ? 43130 : 78125, RVec(10)) {}
   void initialize(const std::string& dir);
-  int calc_lh(const std::vector<int>& t, int m, bool three_player = false) const;
-  int calc_sp(const std::vector<int>& t, bool three_player = false) const;
-  int calc_to(const std::vector<int>& t) const;
-  std::tuple<int, int> operator()(const std::vector<int>& t,
+  int calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const;
+  int calc_sp(const std::array<int, 34>& t, bool three_player = false) const;
+  int calc_to(const std::array<int, 34>& t) const;
+  std::tuple<int, int> operator()(const std::array<int, 34>& t,
                                   int m,
                                   int mode,
                                   bool check_hand = false,

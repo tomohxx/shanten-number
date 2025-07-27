@@ -74,7 +74,7 @@ void Calsht::initialize(const std::string& dir)
   read_file(mp2.begin(), mp2.end(), std::filesystem::path(dir) / "index_h.bin");
 }
 
-int Calsht::calc_lh(const std::vector<int>& t, const int m, const bool three_player) const
+int Calsht::calc_lh(const std::array<int, NUM_TIDS>& t, const int m, const bool three_player) const
 {
   LVec ret = mp2[hash2(t.cbegin() + 27)];
 
@@ -92,7 +92,7 @@ int Calsht::calc_lh(const std::vector<int>& t, const int m, const bool three_pla
   return ret[m + 5];
 }
 
-int Calsht::calc_sp(const std::vector<int>& t, const bool three_player) const
+int Calsht::calc_sp(const std::array<int, NUM_TIDS>& t, const bool three_player) const
 {
   int pair = 0;
   int kind = 0;
@@ -109,7 +109,7 @@ int Calsht::calc_sp(const std::vector<int>& t, const bool three_player) const
   return 7 - pair + (kind < 7 ? 7 - kind : 0);
 }
 
-int Calsht::calc_to(const std::vector<int>& t) const
+int Calsht::calc_to(const std::array<int, NUM_TIDS>& t) const
 {
   int pair = 0;
   int kind = 0;
@@ -124,7 +124,7 @@ int Calsht::calc_to(const std::vector<int>& t) const
   return 14 - kind - (pair > 0 ? 1 : 0);
 }
 
-std::tuple<int, int> Calsht::operator()(const std::vector<int>& t,
+std::tuple<int, int> Calsht::operator()(const std::array<int, NUM_TIDS>& t,
                                         const int m,
                                         const int mode,
                                         const bool check_hand,

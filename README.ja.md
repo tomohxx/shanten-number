@@ -56,7 +56,7 @@ $ ./mkind
 
 ## 使用方法
 
-1. 手牌を表す`std::vector<int>`配列を用意します.
+1. 手牌を表す`std::array<int, 34>`配列を用意します.
    - `n`番目の要素が`n`番目の牌の枚数を格納します.
 
    |        | 1       | 2       | 3       | 4       | 5       | 6       | 7       | 8       | 9       |
@@ -69,7 +69,7 @@ $ ./mkind
    - 例えば123m245779p13555zのような手牌の場合, 以下の配列を定義します.
 
    ```cpp
-   std::vector<int> hand = {
+   std::array<int, 34> hand = {
        1, 1, 1, 0, 0, 0, 0, 0, 0, // Manzu
        0, 1, 0, 1, 1, 0, 2, 0, 1, // Pinzu
        0, 0, 0, 0, 0, 0, 0, 0, 0, // Souzu
@@ -80,22 +80,22 @@ $ ./mkind
 1. シャンテン数を計算します. 各メソッドは**シャンテン数+1**の値を返します.
    - 一般形(`m`面子一雀頭):
    ```cpp
-   int Calsht::calc_lh(const std::vector<int>& t, int m, bool three_player = false) const
+   int Calsht::calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const
    ```
 
    > **NOTE:** 通常, `m`には手牌の枚数を3で割った値を代入します.
 
    - 七対子:
    ```cpp
-   int Calsht::calc_sp(const std::vector<int>& t, bool three_player = false) const
+   int Calsht::calc_sp(const std::array<int, 34>& t, bool three_player = false) const
    ```
    - 国士無双:
    ```cpp
-   int Calsht::calc_to(const std::vector<int>& t) const
+   int Calsht::calc_to(const std::array<int, 34>& t) const
    ```
    - 標準形:
    ```cpp
-   std::tuple<int, int> Calsht::operator()(const std::vector<int>& t,
+   std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
                                            int m,
                                            int mode,
                                            bool check_hand = false,
@@ -111,9 +111,9 @@ $ ./mkind
 
    ```cpp
    #include "calsht.hpp"
+   #include <array>
    #include <filesystem>
    #include <iostream>
-   #include <vector>
 
    int main()
    {
@@ -122,7 +122,7 @@ $ ./mkind
      // Set the location of shanten tables
      calsht.initialize(std::filesystem::current_path());
 
-     std::vector<int> hand = {
+     std::array<int, 34> hand = {
          1, 1, 1, 0, 0, 0, 0, 0, 0, // manzu
          0, 1, 0, 1, 1, 0, 2, 0, 1, // pinzu
          0, 0, 0, 0, 0, 0, 0, 0, 0, // souzu
