@@ -28,9 +28,9 @@ int main(int argc, char* argv[])
   const int NUM_TILES = std::atoi(argv[1]);
   const int NUM_HANDS = std::atoi(argv[2]);
   const bool THREE_PLAYER = std::atoi(argv[3]);
-  std::vector<int> hand(NUM_TIDS, 0);
+  std::array<int, NUM_TIDS> hand{};
   std::vector<int> wall;
-  std::vector<int> sht(MAX_SHT);
+  std::array<int, MAX_SHT> sht{};
   std::conditional<FIX_RANDOM_SEED,
                    std::integral_constant<int, 0>,
                    std::random_device>::type seed_gen;

@@ -1,12 +1,12 @@
 #ifndef HASH_HPP
 #define HASH_HPP
 
+#include <array>
 #include <numeric>
-#include <vector>
 
 template <int Length>
 struct DefaultHash {
-  int operator()(std::vector<int>::const_iterator iter) const
+  int operator()(std::array<int, 34>::const_iterator iter) const
   {
     return std::accumulate(iter + 1,
                            iter + Length,
@@ -47,7 +47,7 @@ struct NyantenHash {
     }
   }
 
-  int operator()(std::vector<int>::const_iterator iter) const
+  int operator()(std::array<int, 34>::const_iterator iter) const
   {
     int h = 0;
     int n = 0;
