@@ -38,10 +38,6 @@ $ make
 [^1]: https://github.com/Cryolite/nyanten
 [^2]: https://www.slideshare.net/slideshow/a-fast-and-space-efficient-algorithm-for-calculating-deficient-numbers-a-k-a-shanten-numbers-pptx/269706666
 
-#### `-DENABLE_PARALLEL`
-
-テーブルの作成を並列で実行します.
-
 #### `-DFIX_RANDOM_SEED`
 
 サンプルプログラムで使用する乱数のシードを固定します.

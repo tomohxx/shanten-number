@@ -38,10 +38,6 @@ It enables the table search algorithm to use the minimal perfect hash function u
 [^1]: https://github.com/Cryolite/nyanten
 [^2]: https://www.slideshare.net/slideshow/a-fast-and-space-efficient-algorithm-for-calculating-deficient-numbers-a-k-a-shanten-numbers-pptx/269706666
 
-#### `-DENABLE_PARALLEL`
-
-It enables building the tables in parallel.
-
 #### `-DFIX_RANDOM_SEED`
 
 It fixes the random seed used in the sample program.

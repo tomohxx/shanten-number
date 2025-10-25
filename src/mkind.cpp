@@ -9,16 +9,10 @@
 #ifndef ENABLE_NYANTEN
 #define ENABLE_NYANTEN false
 #endif
-#ifndef ENABLE_PARALLEL
-#define ENABLE_PARALLEL false
-#endif
 #define NUM_TILE (ENABLE_NYANTEN ? std::min(m, 4) : 4)
 constexpr int MAX_TILES = 14;
 constexpr int MAX_SHT = 14;
 constexpr int NUM_MELDS = 4;
-constexpr std::conditional<ENABLE_PARALLEL,
-                           std::execution::parallel_policy,
-                           std::execution::sequenced_policy>::type policy{};
 using Hand = std::vector<uint8_t>;
 using Hands = std::vector<std::pair<Hand, unsigned int>>;
 using Meld = std::vector<int>;
@@ -129,7 +123,7 @@ int main()
 
     std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
 
-    std::for_each(policy, hands.begin(), hands.end(),
+    std::for_each(std::execution::par, hands.begin(), hands.end(),
                   [&melds, &dists](const auto& hand_hash) {
                     Hand target(9);
                     auto& dist = dists[hand_hash.second];
@@ -166,7 +160,7 @@ int main()
 
     std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
 
-    std::for_each(policy, hands.begin(), hands.end(),
+    std::for_each(std::execution::par, hands.begin(), hands.end(),
                   [&melds, &dists](const auto& hand_hash) {
                     Hand target(7);
                     auto& dist = dists[hand_hash.second];
