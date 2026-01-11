@@ -7,6 +7,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -Wall -Wextra -g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -Wextra")
 set(CMAKE_INSTALL_DATADIR share/data)
 
+find_package(TBB REQUIRED)
+
 option(ENABLE_NYANTEN "ENABLE_NYANTEN" off)
 option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" off)
 
@@ -26,7 +28,7 @@ add_executable(mkind src/mkind.cpp)
 if(ENABLE_NYANTEN)
   target_compile_definitions(mkind PUBLIC ENABLE_NYANTEN=true)
 endif()
-target_link_libraries(mkind tbb)
+target_link_libraries(mkind TBB::tbb)
 
 add_executable(sample src/sample.cpp)
 target_compile_definitions(sample PUBLIC INDEX_FILE_PATH="${PROJECT_BINARY_DIR}")
