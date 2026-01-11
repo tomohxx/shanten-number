@@ -1,11 +1,11 @@
 #include <algorithm>
-#include <execution>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <tbb/parallel_for.h>
 #ifndef ENABLE_NYANTEN
 #define ENABLE_NYANTEN false
 #endif
@@ -123,14 +123,14 @@ int main()
 
     std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
 
-    std::for_each(std::execution::par, hands.begin(), hands.end(),
-                  [&melds, &dists](const auto& hand_hash) {
-                    Hand target(9);
-                    auto& dist = dists[hand_hash.second];
+    tbb::parallel_for(size_t(0), hands.size(), [&melds, &dists, &hands](size_t i) {
+      const auto& hand_hash = hands[i];
+      Hand target(9);
+      auto& dist = dists[hand_hash.second];
 
-                    dist[0] = 0u;
-                    dfs(hand_hash.first, target, 0, 0, melds, dist);
-                  });
+      dist[0] = 0u;
+      dfs(hand_hash.first, target, 0, 0, melds, dist);
+    });
 
     std::for_each(dists.begin(), dists.end(),
                   [&fout](const auto& dist) {
@@ -160,14 +160,14 @@ int main()
 
     std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
 
-    std::for_each(std::execution::par, hands.begin(), hands.end(),
-                  [&melds, &dists](const auto& hand_hash) {
-                    Hand target(7);
-                    auto& dist = dists[hand_hash.second];
+    tbb::parallel_for(size_t(0), hands.size(), [&melds, &dists, &hands](size_t i) {
+      const auto& hand_hash = hands[i];
+      Hand target(7);
+      auto& dist = dists[hand_hash.second];
 
-                    dist[0] = 0u;
-                    dfs(hand_hash.first, target, 0, 0, melds, dist);
-                  });
+      dist[0] = 0u;
+      dfs(hand_hash.first, target, 0, 0, melds, dist);
+    });
 
     std::for_each(dists.begin(), dists.end(),
                   [&fout](const auto& dist) {

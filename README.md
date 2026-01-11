@@ -8,6 +8,27 @@ The algorithm used in this program has been proven to be able to calculate the s
 
 Shanten number is the minimul number of tile exchanges for "tempai".
 
+## Prerequisites
+
+This project requires [Intel Threading Building Blocks (TBB)](https://github.com/oneapi-src/oneTBB) for parallel table building. Before building the project, ensure TBB is installed on your system.
+
+**Installation Instructions:**
+
+- **macOS (Homebrew):**
+  ```
+  $ brew install tbb
+  ```
+
+- **Ubuntu/Debian:**
+  ```
+  $ sudo apt-get install libtbb-dev
+  ```
+
+- **Fedora/RHEL:**
+  ```
+  $ sudo dnf install tbb-devel
+  ```
+
 ## Build
 
 ### Debug mode
@@ -27,7 +48,7 @@ $ cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
-> **NOTE:** It requires a compiler compatiable with C++20 or higher.
+> **NOTE:** It requires a compiler compatible with C++20 or higher and Intel TBB to be installed (see [Prerequisites](#prerequisites)).
 
 ### Compile options
 

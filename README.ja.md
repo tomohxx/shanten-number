@@ -8,6 +8,27 @@
 
 シャンテン数はテンパイまでに必要な最小のツモ回数のことです.
 
+## 前提条件
+
+本プロジェクトは並列テーブル構築に[Intel Threading Building Blocks (TBB)](https://github.com/oneapi-src/oneTBB)を必要とします。ビルド前に、お使いのシステムにTBBがインストールされていることを確認してください。
+
+**インストール手順:**
+
+- **macOS (Homebrew):**
+  ```
+  $ brew install tbb
+  ```
+
+- **Ubuntu/Debian:**
+  ```
+  $ sudo apt-get install libtbb-dev
+  ```
+
+- **Fedora/RHEL:**
+  ```
+  $ sudo dnf install tbb-devel
+  ```
+
 ## ビルド
 
 ### デバッグモード
@@ -27,7 +48,7 @@ $ cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
-> **NOTE:** C++20以上に対応したコンパイラが必要です.
+> **NOTE:** C++20以上に対応したコンパイラが必要です。Intel TBBがインストールされていることが必須です ([前提条件](#前提条件)を参照)。
 
 ### コンパイルオプション
 

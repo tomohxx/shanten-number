@@ -1,0 +1,57 @@
+name: Build and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libtbb-dev cmake build-essential
+
+    - name: Install dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install tbb cmake
+
+    - name: Create build directory
+      run: mkdir -p build
+
+    - name: Configure CMake
+      working-directory: build
+      run: cmake .. -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      working-directory: build
+      run: cmake --build . --config Release
+
+    - name: Verify executables
+      working-directory: build
+      run: |
+        test -f ./mkind
+        test -f ./sample
+
+    - name: Run sample test
+      working-directory: build
+      run: |
+        ./mkind
+        test -f ./index_s.bin
+        test -f ./index_h.bin
+        ./sample 5 1000000 0 > /dev/null
+
+    - name: Upload mkind artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: tables-${{ runner.os }}
+        path: build/index_*.bin
