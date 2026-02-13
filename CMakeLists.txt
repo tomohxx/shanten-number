@@ -5,6 +5,8 @@ project(shanten-number LANGUAGES CXX)
 option(ENABLE_NYANTEN "ENABLE_NYANTEN" on)
 option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" off)
 
+find_package(TBB OPTIONAL_COMPONENTS Tbb)
+
 add_library(compile_settings INTERFACE)
 target_compile_features(compile_settings INTERFACE cxx_std_20)
 target_compile_options(compile_settings INTERFACE
@@ -29,8 +31,10 @@ install(FILES
 install(EXPORT Calsht FILE CalshtConfig.cmake DESTINATION share/cmake)
 
 add_executable(mkind src/mkind.cpp)
-target_compile_definitions(mkind PRIVATE $<$<BOOL:${ENABLE_NYANTEN}>:ENABLE_NYANTEN>)
-target_link_libraries(mkind compile_settings tbb)
+target_compile_definitions(mkind PRIVATE
+  $<$<BOOL:${ENABLE_NYANTEN}>:ENABLE_NYANTEN>
+  $<$<BOOL:${TBB_FOUND}>:ENABLE_PARALLEL>)
+target_link_libraries(mkind compile_settings $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
 
 add_executable(sample src/sample.cpp)
 target_compile_definitions(sample PRIVATE $<$<BOOL:${FIX_RANDOM_SEED}>:FIX_RANDOM_SEED>)
