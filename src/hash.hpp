@@ -63,4 +63,12 @@ struct NyantenHash {
   }
 };
 
+#ifndef ENABLE_NYANTEN
+template <int Length>
+using Hash = DefaultHash<Length>;
+#else
+template <int Length>
+using Hash = NyantenHash<Length>;
+#endif
+
 #endif

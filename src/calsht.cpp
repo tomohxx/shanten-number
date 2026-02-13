@@ -4,10 +4,9 @@
 #include <format>
 #include <fstream>
 #include <stdexcept>
-#include <type_traits>
 constexpr int NUM_TIDS = 34;
-const std::conditional<ENABLE_NYANTEN, NyantenHash<9>, DefaultHash<9>>::type hash1;
-const std::conditional<ENABLE_NYANTEN, NyantenHash<7>, DefaultHash<7>>::type hash2;
+const Hash<9> hash1;
+const Hash<7> hash2;
 
 Calsht::RVec Calsht::index1(const int n) const
 {
