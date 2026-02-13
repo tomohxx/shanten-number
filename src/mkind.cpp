@@ -3,13 +3,13 @@
 #include <fstream>
 #include <iostream>
 #include <numeric>
-#include <type_traits>
 #include <utility>
 #include <vector>
-#ifndef ENABLE_NYANTEN
-#define ENABLE_NYANTEN false
+#ifdef ENABLE_NYANTEN
+#define NUM_TILE (std::min((m), 4))
+#else
+#define NUM_TILE (4)
 #endif
-#define NUM_TILE (ENABLE_NYANTEN ? std::min(m, 4) : 4)
 constexpr int MAX_TILES = 14;
 constexpr int MAX_SHT = 14;
 constexpr int NUM_MELDS = 4;
