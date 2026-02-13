@@ -138,7 +138,7 @@ std::tuple<int, int> Calsht::operator()(const std::array<int, NUM_TIDS>& t,
         throw std::invalid_argument(std::format("Invalid number of hand's tiles at {}: {}", i, t[i]));
       }
 
-      ++n;
+      n += t[i];
     }
 
     if (ENABLE_NYANTEN && n > 14) {
