@@ -7,9 +7,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#ifndef ENABLE_NYANTEN
-#define ENABLE_NYANTEN (false)
-#endif
 
 class Calsht {
 private:
@@ -25,10 +22,7 @@ private:
   void read_file(Iter first, Iter last, std::filesystem::path file) const;
 
 public:
-  Calsht()
-      : mp1(ENABLE_NYANTEN ? 405350 : 1953125),
-        mp2(ENABLE_NYANTEN ? 43130 : 78125) {}
-  void initialize(const std::string& dir);
+  Calsht(const std::string& dir);
   int calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const;
   int calc_sp(const std::array<int, 34>& t, bool three_player = false) const;
   int calc_to(const std::array<int, 34>& t) const;

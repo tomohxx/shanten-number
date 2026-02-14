@@ -30,9 +30,8 @@ int main(int argc, char* argv[])
   std::vector<int> wall;
   std::array<int, MAX_SHT> sht{};
   std::mt19937_64 rand(SEED);
-  Calsht calsht;
+  Calsht calsht(INDEX_FILE_PATH);
 
-  calsht.initialize(INDEX_FILE_PATH);
   wall.reserve(NUM_TIDS * 4);
 
   for (int i = 0; i < NUM_TIDS; ++i) {

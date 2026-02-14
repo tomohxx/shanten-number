@@ -64,7 +64,12 @@ void Calsht::read_file(Iter first, Iter last, std::filesystem::path file) const
   }
 }
 
-void Calsht::initialize(const std::string& dir)
+Calsht::Calsht(const std::string& dir)
+#ifndef ENABLE_NYANTEN
+    : mp1(1953125), mp2(78125)
+#else
+    : mp1(405350), mp2(43130)
+#endif
 {
   read_file(mp1.begin(), mp1.end(), std::filesystem::path(dir) / "index_s.bin");
   read_file(mp2.begin(), mp2.end(), std::filesystem::path(dir) / "index_h.bin");
@@ -137,9 +142,11 @@ std::tuple<int, int> Calsht::operator()(const std::array<int, NUM_TIDS>& t,
       n += t[i];
     }
 
-    if (ENABLE_NYANTEN && n > 14) {
+#ifdef ENABLE_NYANTEN
+    if (n > 14) {
       throw std::invalid_argument(std::format("Invalid sum of hand's tiles: {}", n));
     }
+#endif
 
     if (m < 0 || m > 4) {
       throw std::invalid_argument(std::format("Invalid sum of hands's melds: {}", m));
