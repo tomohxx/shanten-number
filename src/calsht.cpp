@@ -8,9 +8,11 @@ constexpr int NUM_TIDS = 34;
 const Hash<9> hash1;
 const Hash<7> hash2;
 
-Calsht::RVec Calsht::index1(const int n) const
+Calsht::RArr Calsht::index1(const int n) const
 {
-  RVec ret(10, 14u);
+  RArr ret{};
+
+  ret.fill(14u);
 
   ret[0] = 0u;
   ret[1] = std::max(3u - n, 0u);
@@ -19,7 +21,7 @@ Calsht::RVec Calsht::index1(const int n) const
   return ret;
 }
 
-void Calsht::add1(LVec& lhs, const RVec& rhs, const int m) const
+void Calsht::add1(LArr& lhs, const RArr& rhs, const int m) const
 {
   for (int j = m + 5; j >= 5; --j) {
     int sht = std::min(lhs[j] + rhs[0], lhs[0] + rhs[j]);
@@ -42,7 +44,7 @@ void Calsht::add1(LVec& lhs, const RVec& rhs, const int m) const
   }
 }
 
-void Calsht::add2(LVec& lhs, const RVec& rhs, const int m) const
+void Calsht::add2(LArr& lhs, const RArr& rhs, const int m) const
 {
   const int j = m + 5;
   int sht = std::min(lhs[j] + rhs[0], lhs[0] + rhs[j]);
@@ -63,7 +65,7 @@ void Calsht::read_file(Iter first, Iter last, std::filesystem::path file) const
   }
 
   for (; first != last; ++first) {
-    fin.read(reinterpret_cast<char*>(first->data()), first->size() * sizeof(RVec::value_type));
+    fin.read(reinterpret_cast<char*>(first->data()), first->size() * sizeof(RArr::value_type));
   }
 }
 
@@ -75,7 +77,7 @@ void Calsht::initialize(const std::string& dir)
 
 int Calsht::calc_lh(const std::array<int, NUM_TIDS>& t, const int m, const bool three_player) const
 {
-  LVec ret = mp2[hash2(t.cbegin() + 27)];
+  LArr ret = mp2[hash2(t.cbegin() + 27)];
 
   add1(ret, mp1[hash1(t.cbegin() + 18)], m);
   add1(ret, mp1[hash1(t.cbegin() + 9)], m);

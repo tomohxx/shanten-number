@@ -2,31 +2,33 @@
 #define CALSHT_HPP
 
 #include <array>
+#include <cstdint>
 #include <filesystem>
+#include <string>
 #include <tuple>
 #include <vector>
 #ifndef ENABLE_NYANTEN
-#define ENABLE_NYANTEN false
+#define ENABLE_NYANTEN (false)
 #endif
 
 class Calsht {
 private:
-  using LVec = std::vector<uint8_t>;
-  using RVec = std::vector<uint8_t>;
-  using Iter = std::vector<RVec>::iterator;
+  using LArr = std::array<uint8_t, 10>;
+  using RArr = std::array<uint8_t, 10>;
+  using Iter = std::vector<RArr>::iterator;
 
-  std::vector<RVec> mp1;
-  std::vector<RVec> mp2;
+  std::vector<RArr> mp1;
+  std::vector<RArr> mp2;
 
-  RVec index1(int n) const;
-  void add1(LVec& lhs, const RVec& rhs, int m) const;
-  void add2(LVec& lhs, const RVec& rhs, int m) const;
+  RArr index1(int n) const;
+  void add1(LArr& lhs, const RArr& rhs, int m) const;
+  void add2(LArr& lhs, const RArr& rhs, int m) const;
   void read_file(Iter first, Iter last, std::filesystem::path file) const;
 
 public:
   Calsht()
-      : mp1(ENABLE_NYANTEN ? 405350 : 1953125, RVec(10)),
-        mp2(ENABLE_NYANTEN ? 43130 : 78125, RVec(10)) {}
+      : mp1(ENABLE_NYANTEN ? 405350 : 1953125),
+        mp2(ENABLE_NYANTEN ? 43130 : 78125) {}
   void initialize(const std::string& dir);
   int calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const;
   int calc_sp(const std::array<int, 34>& t, bool three_player = false) const;
