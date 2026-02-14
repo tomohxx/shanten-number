@@ -5,7 +5,7 @@ project(shanten-number LANGUAGES CXX)
 option(ENABLE_NYANTEN "ENABLE_NYANTEN" on)
 option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" off)
 
-find_package(TBB OPTIONAL_COMPONENTS Tbb)
+find_package(TBB QUIET)
 
 add_library(compile_settings INTERFACE)
 target_compile_features(compile_settings INTERFACE cxx_std_20)
