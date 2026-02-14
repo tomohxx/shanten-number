@@ -20,7 +20,6 @@ private:
   std::vector<RArr> mp1;
   std::vector<RArr> mp2;
 
-  RArr index1(int n) const;
   void add1(LArr& lhs, const RArr& rhs, int m) const;
   void add2(LArr& lhs, const RArr& rhs, int m) const;
   void read_file(Iter first, Iter last, std::filesystem::path file) const;

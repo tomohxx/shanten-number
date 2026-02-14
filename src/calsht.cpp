@@ -8,18 +8,13 @@ constexpr int NUM_TIDS = 34;
 const Hash<9> hash1;
 const Hash<7> hash2;
 
-Calsht::RArr Calsht::index1(const int n) const
-{
-  RArr ret{};
-
-  ret.fill(14u);
-
-  ret[0] = 0u;
-  ret[1] = std::max(3u - n, 0u);
-  ret[5] = std::max(2u - n, 0u);
-
-  return ret;
-}
+constexpr std::array<std::array<uint8_t, 10>, 5> index1 = {{
+    {0u, 3u, 14u, 14u, 14u, 2u, 14u, 14u, 14u, 14u},
+    {0u, 2u, 14u, 14u, 14u, 1u, 14u, 14u, 14u, 14u},
+    {0u, 1u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
+    {0u, 0u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
+    {0u, 0u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
+}};
 
 void Calsht::add1(LArr& lhs, const RArr& rhs, const int m) const
 {
@@ -83,8 +78,8 @@ int Calsht::calc_lh(const std::array<int, NUM_TIDS>& t, const int m, const bool 
   add1(ret, mp1[hash1(t.cbegin() + 9)], m);
 
   if (three_player) {
-    add1(ret, index1(t[8]), m);
-    add2(ret, index1(t[0]), m);
+    add1(ret, index1[t[8]], m);
+    add2(ret, index1[t[0]], m);
   }
   else {
     add2(ret, mp1[hash1(t.cbegin())], m);
