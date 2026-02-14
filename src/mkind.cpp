@@ -5,11 +5,6 @@
 #include <numeric>
 #include <utility>
 #include <vector>
-#ifdef ENABLE_NYANTEN
-#define NUM_TILE (std::min((m), 4))
-#else
-#define NUM_TILE (4)
-#endif
 #ifdef ENABLE_PARALLEL
 #define POLICY (std::execution::par)
 #else
@@ -93,7 +88,11 @@ void deal(const int n, const int m, Hand& hand, Hands& hands)
     hands.push_back(std::make_pair(hand, hands.size()));
   }
   else {
-    for (int i = 0; i <= NUM_TILE; ++i) {
+#ifdef ENABLE_NYANTEN
+    for (int i = 0; i <= std::min(m, 4); ++i) {
+#else
+    for (int i = 0; i <= 4; ++i) {
+#endif
       hand[n] = i;
       deal(n + 1, m - i, hand, hands);
     }
