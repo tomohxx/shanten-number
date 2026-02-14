@@ -31,7 +31,7 @@ $ make
 
 ### Compile options
 
-#### `-DENBALE_NYANTEN`
+#### `-DENABLE_NYANTEN`
 
 It enables the table search algorithm to use the minimal perfect hash function used in Cryolite's nyanten[^1][^2]. Enabling this option can reduce the size of tables. However, the number of tiles in a hand that can be calculated shanten number is limited to 14 or less.
 
