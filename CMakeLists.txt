@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.12)
 
 project(shanten-number LANGUAGES CXX)
 
-option(ENABLE_NYANTEN "ENABLE_NYANTEN" on)
-option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" off)
+option(ENABLE_NYANTEN "ENABLE_NYANTEN" ON)
+option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" OFF)
 
 find_package(TBB QUIET)
 message(STATUS "TBB found: ${TBB_FOUND}")
