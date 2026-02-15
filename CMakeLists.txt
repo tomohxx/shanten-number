@@ -6,6 +6,7 @@ option(ENABLE_NYANTEN "ENABLE_NYANTEN" on)
 option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" off)
 
 find_package(TBB QUIET)
+message(STATUS "TBB found: ${TBB_FOUND}")
 
 add_library(compile_settings INTERFACE)
 target_compile_features(compile_settings INTERFACE cxx_std_20)
