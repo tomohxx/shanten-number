@@ -51,6 +51,9 @@ $ make
 $ ./mkind
 ```
 
+> [!TIP]
+> Intel Threading Building Blocks (`TBB`)が利用可能な場合は自動でリンクされ並列ビルドが有効になります.
+
 ## 使用方法
 
 1. 手牌を表す`std::array<int, 34>`配列を用意します.

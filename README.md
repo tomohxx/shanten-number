@@ -51,6 +51,9 @@ Build tables of parameters required for calculating shanten number. Create files
 $ ./mkind
 ```
 
+> [!TIP]
+> Intel Threading Building Blocks (`TBB`) is optional and, if available, will be automatically linked to enable parallel builds.
+
 ## Usage
 
 1. Prepare a `std::array<int, 34>` array representing a hand.
