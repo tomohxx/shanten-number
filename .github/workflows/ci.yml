@@ -5,6 +5,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 env:
   BUILD_TYPE: Release
@@ -47,5 +48,5 @@ jobs:
         uses: actions/upload-artifact@v5
         if: matrix.tbb && matrix.nyanten == 'ON'
         with:
-          name: pre-calculated distance tables
+          name: pre-calculated-distance-tables
           path: ${{github.workspace}}/build/index_*.bin
