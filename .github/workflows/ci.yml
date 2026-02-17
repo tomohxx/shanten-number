@@ -36,12 +36,12 @@ jobs:
 
       - name: Pre-calculation
         if: matrix.tbb && matrix.nyanten == 'ON'
-        run: ${{github.workspace}}/build/mkind
+        run: cd ${{github.workspace}}/build && ./mkind
 
       - name: Run sample program
         if: matrix.tbb && matrix.nyanten == 'ON'
         # Run the sample program with fixed test parameters (see sample program docs for argument semantics)
-        run: ${{github.workspace}}/build/sample 14 1000000 0
+        run: cd ${{github.workspace}}/build && ./sample 14 1000000 0
 
       - name: Upload tables
         uses: actions/upload-artifact@v5
