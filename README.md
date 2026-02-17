@@ -27,7 +27,8 @@ $ cd build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
-> **NOTE:** It requires a compiler compatiable with C++20 or higher.
+> [!NOTE]
+> It requires a compiler compatiable with C++20 or higher.
 
 ### Compile options
 
@@ -79,7 +80,8 @@ $ ./mkind
    int Calsht::calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const
    ```
 
-   > **NOTE:** Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
+   > [!NOTE]
+   > Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
 
    - Seven Pairs:
    ```cpp
@@ -97,11 +99,14 @@ $ ./mkind
                                            bool check_hand = false,
                                            bool three_player = false) const
    ```
-   > **NOTE:** `mode` specifies for which winning pattern calculate shanten number. When the pattern is "General Form", `mode` is 1, when "Seven Pairs": 2, "Thirteen Orphans": 4. When calculating the shanten number for multiple winning patterns, specify the logical sum of them.
+   > [!NOTE]
+   > `mode` specifies for which winning pattern calculate shanten number. When the pattern is "General Form", `mode` is 1, > when "Seven Pairs": 2, "Thirteen Orphans": 4. When calculating the shanten number for multiple winning patterns, specify the logical sum of them.
 
-   > **NOTE:** This method returns a tuple of the minimum shunten number and its winnig pattern. The winning pattern is represented in the same way as `mode`.
+   > [!NOTE]
+   > This method returns a tuple of the minimum shunten number and its winnig pattern. The winning pattern is represented in the same way as `mode`.
 
-   > **NOTE:** If you set `check_hand` to `true`, the hand will be validated. If you set `three_player` to `true`, it will calculate the number of shanten in three-player mahjong.
+   > [!NOTE]
+   > If you set `check_hand` to `true`, the hand will be validated. If you set `three_player` to `true`, it will calculate the number of shanten in three-player mahjong.
 
    For example, calculate the shanten number of the hand defined above. The source code is as follows:
 
