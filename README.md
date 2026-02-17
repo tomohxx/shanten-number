@@ -77,15 +77,11 @@ $ ./mkind
    };
    ```
 
-2. Calculate the shanten number. Each method returns a value of **shanten number + 1**.
+1. Calculate the shanten number. Each method returns a value of **shanten number + 1**.
    - General Form (`m` melds and a pair):
    ```cpp
    int Calsht::calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const
    ```
-
-   > [!NOTE]
-   > Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
-
    - Seven Pairs:
    ```cpp
    int Calsht::calc_sp(const std::array<int, 34>& t, bool three_player = false) const
@@ -102,14 +98,17 @@ $ ./mkind
                                            bool check_hand = false,
                                            bool three_player = false) const
    ```
-   > [!NOTE]
-   > `mode` specifies for which winning pattern calculate shanten number. When the pattern is "General Form", `mode` is 1, > when "Seven Pairs": 2, "Thirteen Orphans": 4. When calculating the shanten number for multiple winning patterns, specify the logical sum of them.
+> [!NOTE]
+> Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
 
-   > [!NOTE]
-   > This method returns a tuple of the minimum shunten number and its winnig pattern. The winning pattern is represented in the same way as `mode`.
+> [!NOTE]
+> `mode` specifies for which winning pattern calculate shanten number. When the pattern is "General Form", `mode` is 1, > when "Seven Pairs": 2, "Thirteen Orphans": 4. When calculating the shanten number for multiple winning patterns, specify the logical sum of them.
 
-   > [!NOTE]
-   > If you set `check_hand` to `true`, the hand will be validated. If you set `three_player` to `true`, it will calculate the number of shanten in three-player mahjong.
+> [!NOTE]
+> This method returns a tuple of the minimum shunten number and its winnig pattern. The winning pattern is represented in the same way as `mode`.
+
+> [!NOTE]
+> If you set `check_hand` to `true`, the hand will be validated. If you set `three_player` to `true`, it will calculate the number of shanten in three-player mahjong.
 
    For example, calculate the shanten number of the hand defined above. The source code is as follows:
 
