@@ -45,7 +45,7 @@ jobs:
         run: cd ${{github.workspace}}/build && ./sample 14 1000000 0
 
       - name: Upload tables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         if: matrix.tbb && matrix.nyanten == 'ON'
         with:
           name: pre-calculated-distance-tables
