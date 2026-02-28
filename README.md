@@ -59,45 +59,45 @@ $ ./mkind
 1. Prepare a `std::array<int, 34>` array representing a hand.
    - The `n` th element stores the number of `n` th tiles.
 
-   |         | 1           | 2            | 3           | 4            | 5            | 6            | 7          | 8       | 9       |
-   | :------ | :---------- | :----------- | :---------- | :----------- | :----------- | :----------- | :--------- | :------ | :------ |
-   | *Manzu* | 0 (1m)      | 1 (2m)       | 2 (3m)      | 3 (4m)       | 4 (5m)       | 5 (6m)       | 6 (7m)     | 7 (8m)  | 8 (9m)  |
-   | *Pinzu* | 9 (1p)      | 10 (2p)      | 11 (3p)     | 12 (4p)      | 13 (5p)      | 14 (6p)      | 15 (7p)    | 16 (8p) | 17 (9p) |
-   | *Souzu* | 18 (1s)     | 19 (2s)      | 20 (3s)     | 21 (4s)      | 22 (5s)      | 23 (6s)      | 24 (7s)    | 25 (8s) | 26 (9s) |
-   | *Jihai* | 27 (*East*) | 28 (*South*) | 29 (*West*) | 30 (*North*) | 31 (*White*) | 32 (*Green*) | 33 (*Red*) |         |         |
+      |         | 1           | 2            | 3           | 4            | 5            | 6            | 7          | 8       | 9       |
+      | :------ | :---------- | :----------- | :---------- | :----------- | :----------- | :----------- | :--------- | :------ | :------ |
+      | *Manzu* | 0 (1m)      | 1 (2m)       | 2 (3m)      | 3 (4m)       | 4 (5m)       | 5 (6m)       | 6 (7m)     | 7 (8m)  | 8 (9m)  |
+      | *Pinzu* | 9 (1p)      | 10 (2p)      | 11 (3p)     | 12 (4p)      | 13 (5p)      | 14 (6p)      | 15 (7p)    | 16 (8p) | 17 (9p) |
+      | *Souzu* | 18 (1s)     | 19 (2s)      | 20 (3s)     | 21 (4s)      | 22 (5s)      | 23 (6s)      | 24 (7s)    | 25 (8s) | 26 (9s) |
+      | *Jihai* | 27 (*East*) | 28 (*South*) | 29 (*West*) | 30 (*North*) | 31 (*White*) | 32 (*Green*) | 33 (*Red*) |         |         |
 
    - For example, if you have *manzu* tiles (1, 2, 3), *pinzu* tiles (2, 4, 5, 7, 7, 9), and *jihai* tiles (*East*, *West*, *White*, *White*, *White*), define the following array.
 
-   ```cpp
-   std::array<int, 34> hand = {
-       1, 1, 1, 0, 0, 0, 0, 0, 0, // Manzu
-       0, 1, 0, 1, 1, 0, 2, 0, 1, // Pinzu
-       0, 0, 0, 0, 0, 0, 0, 0, 0, // Souzu
-       1, 0, 1, 0, 3, 0, 0        // Jihai
-   };
-   ```
+      ```cpp
+      std::array<int, 34> hand = {
+         1, 1, 1, 0, 0, 0, 0, 0, 0, // Manzu
+         0, 1, 0, 1, 1, 0, 2, 0, 1, // Pinzu
+         0, 0, 0, 0, 0, 0, 0, 0, 0, // Souzu
+         1, 0, 1, 0, 3, 0, 0        // Jihai
+      };
+      ```
 
 1. Calculate the shanten number. Each method returns a value of **shanten number + 1**.
    - General Form (`m` melds and a pair):
-   ```cpp
-   int Calsht::calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const
-   ```
+      ```cpp
+      int Calsht::calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const
+      ```
    - Seven Pairs:
-   ```cpp
-   int Calsht::calc_sp(const std::array<int, 34>& t, bool three_player = false) const
-   ```
+      ```cpp
+      int Calsht::calc_sp(const std::array<int, 34>& t, bool three_player = false) const
+      ```
    - Thirteen Orphans:
-   ```cpp
-   int Calsht::calc_to(const std::array<int, 34>& t) const
-   ```
+      ```cpp
+      int Calsht::calc_to(const std::array<int, 34>& t) const
+      ```
    - Normal Form:
-   ```cpp
-   std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
-                                           int m,
-                                           int mode,
-                                           bool check_hand = false,
-                                           bool three_player = false) const
-   ```
+      ```cpp
+      std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
+                                             int m,
+                                             int mode,
+                                             bool check_hand = false,
+                                             bool three_player = false) const
+      ```
 > [!NOTE]
 > Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
 
@@ -110,39 +110,39 @@ $ ./mkind
 > [!NOTE]
 > If you set `check_hand` to `true`, the hand will be validated. If you set `three_player` to `true`, it will calculate the number of shanten in three-player mahjong.
 
-   For example, calculate the shanten number of the hand defined above. The source code is as follows:
+For example, calculate the shanten number of the hand defined above. The source code is as follows:
 
-   ```cpp
-   #include "calsht.hpp"
-   #include <array>
-   #include <filesystem>
-   #include <iostream>
+```cpp
+#include "calsht.hpp"
+#include <array>
+#include <filesystem>
+#include <iostream>
 
-   int main()
-   {
-     // Set the location of shanten tables
-     Calsht calsht(std::filesystem::current_path());
+int main()
+{
+   // Set the location of shanten tables
+   Calsht calsht(std::filesystem::current_path());
 
-     std::array<int, 34> hand = {
-         1, 1, 1, 0, 0, 0, 0, 0, 0, // manzu
-         0, 1, 0, 1, 1, 0, 2, 0, 1, // pinzu
-         0, 0, 0, 0, 0, 0, 0, 0, 0, // souzu
-         1, 0, 1, 0, 3, 0, 0        // jihai
-     };
+   std::array<int, 34> hand = {
+      1, 1, 1, 0, 0, 0, 0, 0, 0, // manzu
+      0, 1, 0, 1, 1, 0, 2, 0, 1, // pinzu
+      0, 0, 0, 0, 0, 0, 0, 0, 0, // souzu
+      1, 0, 1, 0, 3, 0, 0        // jihai
+   };
 
-     const auto [sht, mode] = calsht(hand, 4, 7);
+   const auto [sht, mode] = calsht(hand, 4, 7);
 
-     std::cout << sht << std::endl;
-     std::cout << mode << std::endl;
+   std::cout << sht << std::endl;
+   std::cout << mode << std::endl;
 
-     return 0;
-   }
-   ```
-   Output:
-   ```
-   3
-   1
-   ```
+   return 0;
+}
+```
+Output:
+```
+3
+1
+```
 
 ## Sample Program
 
