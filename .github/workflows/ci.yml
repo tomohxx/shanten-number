@@ -30,23 +30,23 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libtbb-dev
 
       - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DENABLE_NYANTEN=${{matrix.nyanten}} -DFIX_RANDOM_SEED=${{env.FIX_RANDOM_SEED}}
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DENABLE_NYANTEN=${{matrix.nyanten}} -DFIX_RANDOM_SEED=${{env.FIX_RANDOM_SEED}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build
+        run: cmake --build build
 
       - name: Pre-calculation
         if: matrix.tbb && matrix.nyanten == 'ON'
-        run: cd ${{github.workspace}}/build && ./mkind
+        run: cd build && ./mkind
 
       - name: Run sample program
         if: matrix.tbb && matrix.nyanten == 'ON'
         # Run the sample program with fixed test parameters (see sample program docs for argument semantics)
-        run: cd ${{github.workspace}}/build && ./sample 14 1000000 0
+        run: cd build && ./sample 14 1000000 0
 
       - name: Upload tables
         uses: actions/upload-artifact@v7
         if: matrix.tbb && matrix.nyanten == 'ON'
         with:
           name: pre-calculated-distance-tables
-          path: ${{github.workspace}}/build/index_*.bin
+          path: build/index_*.bin
