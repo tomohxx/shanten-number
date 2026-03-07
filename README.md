@@ -41,7 +41,7 @@ It enables the table search algorithm to use the minimal perfect hash function u
 
 #### `-DFIX_RANDOM_SEED`
 
-It fixes the random seed used in the sample program.
+It fixes the random seed used in the example program.
 
 #### Building tables
 
@@ -144,12 +144,12 @@ Output:
 1
 ```
 
-## Sample Program
+## Example
 
 - Randomly genearte hands and calculate the appearance rate per shanten number and the expected value of shanten number.
 
 ```
-$ ./sample 14 100000000 0
+$ ./example 14 100000000 0
   -1         278    0.000278
    0       69553    0.069553
    1     2334287    2.334287
