@@ -126,11 +126,11 @@ namespace mahjong {
     return 14 - kind - (pair > 0 ? 1 : 0);
   }
 
-  std::tuple<int, int> Calsht::operator()(const std::array<int, NUM_TIDS>& t,
-                                          const int m,
-                                          const int mode,
-                                          const bool check_hand,
-                                          const bool three_player) const
+  std::tuple<int, unsigned int> Calsht::operator()(const std::array<int, NUM_TIDS>& t,
+                                                   const int m,
+                                                   const unsigned int mode,
+                                                   const bool check_hand,
+                                                   const bool three_player) const
   {
     if (check_hand) {
       int n = 0;
@@ -153,14 +153,14 @@ namespace mahjong {
         throw std::invalid_argument(std::format("Invalid sum of hands's melds: {}", m));
       }
 
-      if (mode < 0 || mode > 7) {
+      if (mode > 7u) {
         throw std::invalid_argument(std::format("Invalid caluculation mode: {}", mode));
       }
     }
 
-    std::tuple<int, int> ret{1024, 0};
+    std::tuple<int, unsigned int> ret{1024, 0u};
 
-    if (mode & 1) {
+    if (mode & 1u) {
       if (int sht = calc_lh(t, m, three_player); sht < std::get<0>(ret)) {
         ret = {sht, 1};
       }
@@ -169,7 +169,7 @@ namespace mahjong {
       }
     }
 
-    if ((mode & 2) && m == 4) {
+    if ((mode & 2u) && m == 4) {
       if (int sht = calc_sp(t, three_player); sht < std::get<0>(ret)) {
         ret = {sht, 2};
       }
@@ -178,7 +178,7 @@ namespace mahjong {
       }
     }
 
-    if ((mode & 4) && m == 4) {
+    if ((mode & 4u) && m == 4) {
       if (int sht = calc_to(t); sht < std::get<0>(ret)) {
         ret = {sht, 4};
       }

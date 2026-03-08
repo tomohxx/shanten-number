@@ -27,11 +27,11 @@ namespace mahjong {
     int calc_lh(const std::array<int, 34>& t, int m, bool three_player = false) const;
     int calc_sp(const std::array<int, 34>& t, bool three_player = false) const;
     int calc_to(const std::array<int, 34>& t) const;
-    std::tuple<int, int> operator()(const std::array<int, 34>& t,
-                                    int m,
-                                    int mode,
-                                    bool check_hand = false,
-                                    bool three_player = false) const;
+    std::tuple<int, unsigned int> operator()(const std::array<int, 34>& t,
+                                             int m,
+                                             unsigned int mode,
+                                             bool check_hand = false,
+                                             bool three_player = false) const;
   };
 }
 
