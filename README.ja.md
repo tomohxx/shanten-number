@@ -92,11 +92,11 @@ $ ./mkind
       ```
    - 標準形:
       ```cpp
-      std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
-                                             int m,
-                                             unsigned int mode,
-                                             bool check_hand = false,
-                                             bool three_player = false) const
+      std::tuple<int, unsigned int> Calsht::operator()(const std::array<int, 34>& t,
+                                                       int m,
+                                                       unsigned int mode,
+                                                       bool check_hand = false,
+                                                       bool three_player = false) const
       ```
 > [!NOTE]
 > 通常, `m`には手牌の枚数を3で割った値を代入します.

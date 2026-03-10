@@ -92,11 +92,11 @@ $ ./mkind
       ```
    - Normal Form:
       ```cpp
-      std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
-                                             int m,
-                                             unsigned int mode,
-                                             bool check_hand = false,
-                                             bool three_player = false) const
+      std::tuple<int, unsigned int> Calsht::operator()(const std::array<int, 34>& t,
+                                                       int m,
+                                                       unsigned int mode,
+                                                       bool check_hand = false,
+                                                       bool three_player = false) const
       ```
 > [!NOTE]
 > Normally, substitute the value obtained by dividing the number of tiles by 3 into `m`.
