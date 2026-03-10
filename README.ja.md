@@ -94,7 +94,7 @@ $ ./mkind
       ```cpp
       std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
                                              int m,
-                                             int mode,
+                                             unsigned int mode,
                                              bool check_hand = false,
                                              bool three_player = false) const
       ```
