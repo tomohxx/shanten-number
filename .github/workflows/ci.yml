@@ -39,10 +39,10 @@ jobs:
         if: matrix.tbb && matrix.nyanten == 'ON'
         run: cd build && ./mkind
 
-      - name: Run sample program
+      - name: Run example program
         if: matrix.tbb && matrix.nyanten == 'ON'
-        # Run the sample program with fixed test parameters (see sample program docs for argument semantics)
-        run: cd build && ./sample 14 1000000 0
+        # Run the example program with fixed test parameters (see example program docs for argument semantics)
+        run: cd build && ./example 14 1000000 0
 
       - name: Upload tables
         uses: actions/upload-artifact@v7

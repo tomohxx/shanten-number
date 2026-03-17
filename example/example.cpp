@@ -1,9 +1,9 @@
-#include "calsht.hpp"
 #include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <format>
 #include <iostream>
+#include <mahjong/calsht.hpp>
 #include <random>
 #include <utility>
 #ifndef FIX_RANDOM_SEED
@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
   std::vector<int> wall;
   std::array<int, MAX_SHT> sht{};
   std::mt19937_64 rand(SEED);
-  Calsht calsht(INDEX_FILE_PATH);
+  mahjong::Calsht calsht(INDEX_FILE_PATH);
 
   wall.reserve(NUM_TIDS * 4);
 

@@ -92,11 +92,11 @@ $ ./mkind
       ```
    - 標準形:
       ```cpp
-      std::tuple<int, int> Calsht::operator()(const std::array<int, 34>& t,
-                                             int m,
-                                             int mode,
-                                             bool check_hand = false,
-                                             bool three_player = false) const
+      std::tuple<int, unsigned int> Calsht::operator()(const std::array<int, 34>& t,
+                                                       int m,
+                                                       unsigned int mode,
+                                                       bool check_hand = false,
+                                                       bool three_player = false) const
       ```
 > [!NOTE]
 > 通常, `m`には手牌の枚数を3で割った値を代入します.
@@ -144,12 +144,12 @@ int main()
 1
 ```
 
-## サンプルプログラム
+## 実行例
 
 手牌をランダムに生成し, シャンテン数ごとの出現率とシャンテン数の期待値を計算します.
 
 ```
-$ ./sample 14 100000000 0
+$ ./example 14 100000000 0
   -1         278    0.000278
    0       69553    0.069553
    1     2334287    2.334287
