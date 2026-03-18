@@ -14,6 +14,10 @@ target_compile_options(compile_settings INTERFACE
   $<$<CONFIG:Debug>:-O0 -Wall -Wextra -g>
   $<$<CONFIG:Release>:-O3 -Wall -Wextra>)
 
+set(INDEX_FILES
+  ${PROJECT_BINARY_DIR}/index_s.bin
+  ${PROJECT_BINARY_DIR}/index_h.bin)
+
 add_library(calsht src/calsht.cpp)
 target_link_libraries(calsht compile_settings)
 target_include_directories(calsht PUBLIC
@@ -25,10 +29,7 @@ target_compile_definitions(calsht INTERFACE
   PUBLIC $<$<BOOL:${ENABLE_NYANTEN}>:ENABLE_NYANTEN>)
 install(TARGETS calsht compile_settings EXPORT Calsht)
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/mahjong DESTINATION include)
-install(FILES
-  ${PROJECT_BINARY_DIR}/index_s.bin
-  ${PROJECT_BINARY_DIR}/index_h.bin
-  DESTINATION share/data/mahjong)
+install(FILES ${INDEX_FILES} DESTINATION share/data/mahjong)
 install(EXPORT Calsht
   FILE CalshtConfig.cmake
   NAMESPACE Mahjong::
@@ -43,3 +44,12 @@ target_link_libraries(mkind compile_settings $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
 add_executable(example example/example.cpp)
 target_compile_definitions(example PRIVATE $<$<BOOL:${FIX_RANDOM_SEED}>:FIX_RANDOM_SEED>)
 target_link_libraries(example calsht)
+
+add_custom_command(OUTPUT ${INDEX_FILES}
+  COMMAND $<TARGET_FILE:mkind>
+  WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+  DEPENDS mkind
+  COMMENT "Generating index files"
+  VERBATIM)
+add_custom_target(index_files ALL DEPENDS ${INDEX_FILES})
+add_custom_target(exclude_index_files DEPENDS calsht mkind example)
