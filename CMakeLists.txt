@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.12)
 
 project(shanten-number LANGUAGES CXX)
 
+include(GNUInstallDirs)
+
 option(ENABLE_NYANTEN "ENABLE_NYANTEN" ON)
 option(FIX_RANDOM_SEED "FIX_RANDOM_SEED" OFF)
 
@@ -25,15 +27,15 @@ target_include_directories(calsht PUBLIC
   $<INSTALL_INTERFACE:include>)
 target_compile_definitions(calsht INTERFACE
   $<BUILD_INTERFACE:INDEX_FILE_PATH="${PROJECT_BINARY_DIR}">
-  $<INSTALL_INTERFACE:INDEX_FILE_PATH="${CMAKE_INSTALL_PREFIX}/share/data/mahjong">
+  $<INSTALL_INTERFACE:INDEX_FILE_PATH="${CMAKE_INSTALL_DATADIR}/mahjong">
   PUBLIC $<$<BOOL:${ENABLE_NYANTEN}>:ENABLE_NYANTEN>)
 install(TARGETS calsht compile_settings EXPORT Calsht)
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/mahjong DESTINATION include)
-install(FILES ${INDEX_FILES} DESTINATION share/data/mahjong)
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/mahjong DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES ${INDEX_FILES} DESTINATION ${CMAKE_INSTALL_DATADIR}/mahjong)
 install(EXPORT Calsht
   FILE CalshtConfig.cmake
-  NAMESPACE Mahjong::
-  DESTINATION share/cmake/mahjong)
+  NAMESPACE Calsht::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mahjong)
 
 add_executable(mkind src/mkind.cpp)
 target_compile_definitions(mkind PRIVATE
