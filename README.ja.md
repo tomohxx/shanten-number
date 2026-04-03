@@ -113,15 +113,15 @@ $ ./mkind
 例として, 先に定義した手牌のシャンテン数を計算します.
 
 ```cpp
-#include "calsht.hpp"
 #include <array>
 #include <filesystem>
 #include <iostream>
+#include <mahjong/calsht.hpp>
 
 int main()
 {
    // Set the location of shanten tables
-   Calsht calsht(std::filesystem::current_path());
+   mahjong::Calsht calsht(std::filesystem::current_path());
 
    std::array<int, 34> hand = {
       1, 1, 1, 0, 0, 0, 0, 0, 0, // manzu
