@@ -1,8 +1,9 @@
 #include <algorithm>
+#include <array>
+#include <cstdint>
 #include <execution>
 #include <fstream>
 #include <iostream>
-#include <numeric>
 #include <utility>
 #include <vector>
 #ifdef ENABLE_PARALLEL
@@ -10,81 +11,68 @@
 #else
 #define POLICY (std::execution::seq)
 #endif
-constexpr int MAX_TILES = 14;
 constexpr int MAX_SHT = 14;
-constexpr int NUM_MELDS = 4;
-using Hand = std::vector<uint8_t>;
-using Hands = std::vector<std::pair<Hand, unsigned int>>;
-using Meld = std::vector<int>;
-using Melds = std::vector<Meld>;
+constexpr int MAX_TILES = 14;
+template <int N>
+using Hand = std::array<int, N>;
+template <int N>
+using Hands = std::vector<std::pair<Hand<N>, std::size_t>>;
 
-inline bool is_valid_target(const Hand& hand)
+struct Delta {
+  int a;
+  int b;
+  int c;
+  int h;
+  int m;
+};
+
+void chmin(uint8_t& x, const uint8_t y)
 {
-  return std::all_of(hand.begin(), hand.end(), [](const int x) { return x <= 4; });
+  if (x > y) x = y;
 }
 
-inline uint8_t calc_distance(const Hand& current, const Hand& target)
+template <int N>
+void dp(const Hand<N>& hand, const std::vector<Delta>& deltas, std::array<uint8_t, 10>& sht)
 {
-  return std::inner_product(
-      target.begin(),
-      target.end(),
-      current.begin(),
-      0,
-      std::plus<int>(),
-      [](const auto& x, const auto& y) { return std::max(x - y, 0); });
-}
+  using std::array;
 
-inline void add_meld(Hand& target, const Meld& meld)
-{
-  std::for_each(meld.begin(), meld.end(), [&target](const int x) { ++target[x]; });
-}
+  array<array<array<array<array<uint8_t, 5>, 2>, 5>, 5>, N + 1> table;
 
-inline void remove_meld(Hand& target, const Meld& meld)
-{
-  std::for_each(meld.begin(), meld.end(), [&target](const int x) { --target[x]; });
-}
+  std::fill(table[0][0][0][0].begin(), table[N][4][4][1].end(), MAX_SHT);
 
-void dfs(const Hand& current,
-         Hand& target,
-         const int m,
-         const int min_mid,
-         const Melds& melds,
-         std::vector<uint8_t>& sht)
-{
-  for (int tid = 0; tid < static_cast<int>(current.size()); ++tid) {
-    target[tid] += 2;
+  table[0][0][0][0][0] = 0;
 
-    if (is_valid_target(target)) {
-      const auto distance = calc_distance(current, target);
+  for (int n = 0; n < N; ++n) {
+    for (int a = 0; a <= 4; ++a) {
+      for (int b = 0; b <= 4; ++b) {
+        for (int h = 0; h <= 1; ++h) {
+          for (int m = 0; m <= 4; ++m) {
+            auto& tmp = table[n][a][b][h][m];
 
-      sht[m + 5] = std::min(sht[m + 5], distance);
-    }
+            if (tmp == MAX_SHT) continue;
 
-    target[tid] -= 2;
-  }
+            for (const auto& delta : deltas) {
+              if (a + delta.a > 4 ||
+                  b + delta.b > 4 ||
+                  h + delta.h > 1 ||
+                  m + delta.m > 4) continue;
 
-  if (m >= NUM_MELDS) return;
-
-  for (std::size_t mid = min_mid; mid < melds.size(); ++mid) {
-    add_meld(target, melds[mid]);
-
-    if (is_valid_target(target)) {
-      const auto distance = calc_distance(current, target);
-
-      sht[m + 1] = std::min(sht[m + 1], distance);
-
-      if (distance < sht[NUM_MELDS + 5]) {
-        dfs(current, target, m + 1, mid, melds, sht);
+              chmin(table[n + 1][b + delta.b][delta.c][h + delta.h][m + delta.m],
+                    tmp + std::max(a + delta.a - hand[n], 0));
+            }
+          }
+        }
       }
     }
-
-    remove_meld(target, melds[mid]);
   }
+
+  std::copy(table[N][0][0][0].cbegin(), table[N][0][0][1].cend(), sht.begin());
 }
 
-void deal(const int n, const int m, Hand& hand, Hands& hands)
+template <int N>
+void deal(const int n, const int m, Hand<N>& hand, Hands<N>& hands)
 {
-  if (n >= static_cast<int>(hand.size())) {
+  if (n >= N) {
     hands.push_back(std::make_pair(hand, hands.size()));
   }
   else {
@@ -94,7 +82,7 @@ void deal(const int n, const int m, Hand& hand, Hands& hands)
     for (int i = 0; i <= 4; ++i) {
 #endif
       hand[n] = i;
-      deal(n + 1, m - i, hand, hands);
+      deal<N>(n + 1, m - i, hand, hands);
     }
   }
 }
@@ -109,31 +97,30 @@ int main()
       return 1;
     }
 
-    Hand hand(9);
-    Melds melds;
-    Hands hands;
+    Hand<9> hand{};
+    Hands<9> hands;
 
     hands.reserve(1953125); // 5^9
 
-    for (int tid = 0; tid < static_cast<int>(hand.size()); ++tid) {
-      melds.emplace_back(Meld{tid, tid, tid});
-    }
+    const std::vector<Delta>
+        deltas = {
+            {0, 0, 0, 0, 0},
+            {1, 1, 1, 0, 1},
+            {2, 2, 2, 0, 2},
+            {3, 0, 0, 0, 1},
+            {4, 1, 1, 0, 2},
+            {2, 0, 0, 1, 0},
+            {3, 1, 1, 1, 1},
+            {4, 2, 2, 1, 2},
+        };
 
-    for (int tid = 0; tid < static_cast<int>(hand.size()) - 2; ++tid) {
-      melds.emplace_back(Meld{tid, tid + 1, tid + 2});
-    }
+    deal<9>(0, MAX_TILES, hand, hands);
 
-    deal(0, MAX_TILES, hand, hands);
+    std::vector<std::array<uint8_t, 10>> dists(hands.size(), std::array<uint8_t, 10>{});
 
-    std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
-
-    std::for_each(POLICY, hands.begin(), hands.end(),
-                  [&melds, &dists](const auto& hand_hash) {
-                    Hand target(9);
-                    auto& dist = dists[hand_hash.second];
-
-                    dist[0] = 0u;
-                    dfs(hand_hash.first, target, 0, 0, melds, dist);
+    std::for_each(std::execution::par, hands.begin(), hands.end(),
+                  [&deltas, &dists](const auto& hand_hash) {
+                    dp<9>(hand_hash.first, deltas, dists[hand_hash.second]);
                   });
 
     std::for_each(dists.begin(), dists.end(),
@@ -150,27 +137,25 @@ int main()
       return 1;
     }
 
-    Hand hand(7);
-    Melds melds;
-    Hands hands;
+    Hand<7> hand{};
+    Hands<7> hands;
 
     hands.reserve(78125); // 5^7
 
-    for (int tid = 0; tid < static_cast<int>(hand.size()); ++tid) {
-      melds.emplace_back(Meld{tid, tid, tid});
-    }
+    const std::vector<Delta>
+        deltas = {
+            {0, 0, 0, 0, 0},
+            {3, 0, 0, 0, 1},
+            {2, 0, 0, 1, 0},
+        };
 
-    deal(0, MAX_TILES, hand, hands);
+    deal<7>(0, MAX_TILES, hand, hands);
 
-    std::vector<std::vector<uint8_t>> dists(hands.size(), std::vector<uint8_t>(10, MAX_SHT));
+    std::vector<std::array<uint8_t, 10>> dists(hands.size(), std::array<uint8_t, 10>{});
 
     std::for_each(POLICY, hands.begin(), hands.end(),
-                  [&melds, &dists](const auto& hand_hash) {
-                    Hand target(7);
-                    auto& dist = dists[hand_hash.second];
-
-                    dist[0] = 0u;
-                    dfs(hand_hash.first, target, 0, 0, melds, dist);
+                  [&deltas, &dists](const auto& hand_hash) {
+                    dp<7>(hand_hash.first, deltas, dists[hand_hash.second]);
                   });
 
     std::for_each(dists.begin(), dists.end(),
