@@ -32,16 +32,10 @@ jobs:
       - name: Configure CMake
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DENABLE_NYANTEN=${{matrix.nyanten}} -DFIX_RANDOM_SEED=${{env.FIX_RANDOM_SEED}}
 
-      - name: Build
-        if: ${{ !(matrix.tbb && matrix.nyanten == 'ON') }}
-        run: cmake --build build --target exclude_index_files
-
       - name: Build and Pre-calculation
-        if: matrix.tbb && matrix.nyanten == 'ON'
         run: cmake --build build
 
       - name: Run example program
-        if: matrix.tbb && matrix.nyanten == 'ON'
         # Run the example program with fixed test parameters (see example program docs for argument semantics)
         run: ./build/example 14 1000000 0
 
