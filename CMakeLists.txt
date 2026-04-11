@@ -54,4 +54,3 @@ add_custom_command(OUTPUT ${INDEX_FILES}
   COMMENT "Generating index files"
   VERBATIM)
 add_custom_target(index_files ALL DEPENDS ${INDEX_FILES})
-add_custom_target(exclude_index_files DEPENDS calsht mkind example)
