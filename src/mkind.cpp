@@ -118,7 +118,7 @@ int main()
 
     std::vector<std::array<uint8_t, 10>> dists(hands.size(), std::array<uint8_t, 10>{});
 
-    std::for_each(std::execution::par, hands.cbegin(), hands.cend(),
+    std::for_each(POLICY, hands.cbegin(), hands.cend(),
                   [&deltas, &dists](const auto& hand_hash) {
                     dp<9>(hand_hash.first, deltas, dists[hand_hash.second]);
                   });
