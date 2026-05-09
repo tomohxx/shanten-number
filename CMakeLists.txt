@@ -43,7 +43,7 @@ target_compile_definitions(mkind PRIVATE
   $<$<BOOL:${TBB_FOUND}>:ENABLE_PARALLEL>)
 target_link_libraries(mkind compile_settings $<$<BOOL:${TBB_FOUND}>:TBB::tbb>)
 
-add_executable(example example/example.cpp)
+add_executable(example examples/example.cpp)
 target_compile_definitions(example PRIVATE $<$<BOOL:${FIX_RANDOM_SEED}>:FIX_RANDOM_SEED>)
 target_link_libraries(example calsht)
 
