@@ -5,6 +5,7 @@
 #include <mahjong/calsht.hpp>
 #include <stdexcept>
 constexpr int NUM_TIDS = 34;
+constexpr std::array<int, 13> NON_SIMPLES = {0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33};
 constexpr Hash<9> hash1;
 constexpr Hash<7> hash2;
 
@@ -118,7 +119,7 @@ namespace mahjong {
     int pair = 0;
     int kind = 0;
 
-    for (const int i : {0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33}) {
+    for (const int i : NON_SIMPLES) {
       if (t[i] >= 1) ++kind;
       if (t[i] >= 2) ++pair;
     }
