@@ -22,7 +22,7 @@ struct NyantenHash {
   static constexpr int MAX_TILES = 14;
   std::array<std::array<std::array<int, 5>, MAX_TILES + 1>, Length> table{};
 
-  NyantenHash()
+  constexpr NyantenHash()
   {
     std::array<std::array<int, MAX_TILES + 1>, Length + 1> temp_table{};
 

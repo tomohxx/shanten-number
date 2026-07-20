@@ -5,8 +5,8 @@
 #include <mahjong/calsht.hpp>
 #include <stdexcept>
 constexpr int NUM_TIDS = 34;
-const Hash<9> hash1;
-const Hash<7> hash2;
+constexpr Hash<9> hash1;
+constexpr Hash<7> hash2;
 
 constexpr std::array<std::array<uint8_t, 10>, 5> index1 = {{
     {0u, 3u, 14u, 14u, 14u, 2u, 14u, 14u, 14u, 14u},
