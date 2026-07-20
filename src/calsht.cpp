@@ -106,11 +106,8 @@ namespace mahjong {
 
     for (int i = 0; i < NUM_TIDS; ++i) {
       if (three_player && i > 0 && i < 8) continue;
-
-      if (t[i] > 0) {
-        ++kind;
-        if (t[i] >= 2) ++pair;
-      }
+      if (t[i] > 0) ++kind;
+      if (t[i] >= 2) ++pair;
     }
 
     return 7 - pair + (kind < 7 ? 7 - kind : 0);
@@ -122,10 +119,8 @@ namespace mahjong {
     int kind = 0;
 
     for (const int i : {0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33}) {
-      if (t[i] > 0) {
-        ++kind;
-        if (t[i] >= 2) ++pair;
-      }
+      if (t[i] >= 1) ++kind;
+      if (t[i] >= 2) ++pair;
     }
 
     return 14 - kind - (pair > 0 ? 1 : 0);
