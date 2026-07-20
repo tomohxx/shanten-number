@@ -8,13 +8,18 @@ constexpr int NUM_TIDS = 34;
 constexpr Hash<9> hash1;
 constexpr Hash<7> hash2;
 
-constexpr std::array<std::array<uint8_t, 10>, 5> index1 = {{
-    {0u, 3u, 14u, 14u, 14u, 2u, 14u, 14u, 14u, 14u},
-    {0u, 2u, 14u, 14u, 14u, 1u, 14u, 14u, 14u, 14u},
-    {0u, 1u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
-    {0u, 0u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
-    {0u, 0u, 14u, 14u, 14u, 0u, 14u, 14u, 14u, 14u},
-}};
+constexpr std::array<std::array<uint8_t, 10>, 5> index1 = []() {
+  std::array<std::array<uint8_t, 10>, 5> ret{};
+
+  for (int i = 0; i < 5; ++i) {
+    ret[i].fill(14u);
+    ret[i][0] = 0u;
+    ret[i][1] = std::max(3 - i, 0);
+    ret[i][5] = std::max(2 - i, 0);
+  }
+
+  return ret;
+}();
 
 namespace mahjong {
   void Calsht::add1(LArr& lhs, const RArr& rhs, const int m) const
